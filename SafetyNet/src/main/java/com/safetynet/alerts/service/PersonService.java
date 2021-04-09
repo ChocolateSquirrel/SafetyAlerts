@@ -23,9 +23,22 @@ public class PersonService {
 		this.fireStationRepository = fireStationRepository;
 		this.medicalRecordRepository = medicalRecordRepository;
 	}
-	
-	public List<Person> getAllPersons(){
+
+	public List<Person> getAllPersons() {
 		return personRepository.findAll();
+	}
+
+	// ------------------ Methods for add, update or delete a Person ----------------- //
+	public void addPerson(Person person) {
+		personRepository.add(person);
+	}
+
+	public void updatePerson(Person person) {
+		personRepository.update(person);
+	}
+	
+	public void deletePerson(Person person) {
+		personRepository.delete(person);
 	}
 
 }

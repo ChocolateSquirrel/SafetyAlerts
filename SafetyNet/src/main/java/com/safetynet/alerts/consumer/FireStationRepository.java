@@ -1,6 +1,9 @@
 package com.safetynet.alerts.consumer;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -10,17 +13,46 @@ import com.safetynet.alerts.model.FireStation;
 public class FireStationRepository {
 	private final DataHandler dataHandler;
 	private List<FireStation> firestations;
-	
+
 	public FireStationRepository(DataHandler dataHandler) {
 		this.dataHandler = dataHandler;
 		firestations = dataHandler.getData().getFirestations();
 	}
-	
-	public List<FireStation> findAll(){
+
+	// ------------------ Methods for add, update or delete a fireStation ----------------- //
+	public void saveFireStation(FireStation firestation) {
+		firestations.add(firestation);
+		dataHandler.save();
+	}
+
+	public void updateFireStation(FireStation fireStation) {
+		List<FireStation> list = firestations.stream().filter(fs -> fs.getAddress().equals(fireStation.getAddress()))
+				.collect(Collectors.toList());
+		if (!list.isEmpty()) {
+			FireStation oldFireStation = list.get(0);
+			oldFireStation.setStation(fireStation.getStation());
+			dataHandler.save();
+		}
+	}
+
+	public void delete(FireStation fireStation) {
+		List<FireStation> list = firestations.stream().filter(fs -> fs.getAddress().equals(fireStation.getAddress())
+				&& fs.getStation().equals(fireStation.getStation())).collect(Collectors.toList());
+		if (!list.isEmpty()) {
+			FireStation fireStationToDelete = list.get(0);
+			firestations.remove(fireStationToDelete);
+			dataHandler.save();
+		}
+	}
+
+	public List<FireStation> findAll() {
 		return firestations;
 	}
-	
-	
-	
+
+	public List<FireStation> findByStationNumber(int stationNumber) {
+		List<FireStation> fireStationsFilteredByNumber = firestations.stream()
+				.filter(fs -> Integer.parseInt(fs.getStation()) == stationNumber).collect(Collectors.toList());
+		return fireStationsFilteredByNumber;
+	}
 
 }

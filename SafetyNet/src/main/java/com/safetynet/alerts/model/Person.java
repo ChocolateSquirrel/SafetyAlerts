@@ -2,7 +2,7 @@ package com.safetynet.alerts.model;
 
 public class Person {
 	private String firstName;
-	private String lastname;
+	private String lastName;
 	private String address;
 	private String city;
 	private String zip;
@@ -13,10 +13,10 @@ public class Person {
 		super();
 	}
 
-	public Person(String firstName, String lastname, String address, String city, String zip, String phone,
+	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
 		this.firstName = firstName;
-		this.lastname = lastname;
+		this.lastName = lastName;
 		this.address = address;
 		this.city = city;
 		this.zip = zip;
@@ -39,17 +39,17 @@ public class Person {
 	}
 
 	/**
-	 * @return the lastname
+	 * @return the lastName
 	 */
 	public String getLastname() {
-		return lastname;
+		return lastName;
 	}
 
 	/**
-	 * @param lastname the lastname to set
+	 * @param lastname the lastName to set
 	 */
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastname(String lastName) {
+		this.lastName = lastName;
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return "Person [firstName=" + firstName + ", lastname=" + lastname + ", address=" + address + ", city=" + city
+		return "Person [firstName=" + firstName + ", lastname=" + lastName + ", address=" + address + ", city=" + city
 				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
 	}
 

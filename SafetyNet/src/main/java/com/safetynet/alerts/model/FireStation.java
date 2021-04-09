@@ -1,30 +1,30 @@
 package com.safetynet.alerts.model;
 
 public class FireStation {
-	private int stationNumber;
+	private String station;
 	private String address;
 
 	public FireStation() {
 		super();
 	}
 
-	public FireStation(int stationNumber, String address) {
-		this.stationNumber = stationNumber;
+	public FireStation(String address, String station) {
 		this.address = address;
+		this.station = station;
 	}
 
 	/**
-	 * @return the stationNumber
+	 * @return the station
 	 */
-	public int getStationNumber() {
-		return stationNumber;
+	public String getStation() {
+		return station;
 	}
 
 	/**
-	 * @param stationNumber the stationNumber to set
+	 * @param station the station to set
 	 */
-	public void setStationNumber(int stationNumber) {
-		this.stationNumber = stationNumber;
+	public void setStation(String station) {
+		this.station = station;
 	}
 
 	/**
@@ -43,7 +43,8 @@ public class FireStation {
 
 	@Override
 	public String toString() {
-		return "FireStation [stationNumber=" + stationNumber + ", address=" + address + "]";
+		return "FireStation [station=" + station + ", address=" + address + "]";
 	}
 
+	
 }

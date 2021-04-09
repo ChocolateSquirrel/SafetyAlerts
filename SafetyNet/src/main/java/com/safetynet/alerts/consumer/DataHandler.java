@@ -34,10 +34,12 @@ public class DataHandler {
 		return data;
 	}
 	
-	public void save() throws IOException {
+	public void save() {
 		String dataString = JsonStream.serialize(data);
 		try (FileWriter writer = new FileWriter("classpath:data.json")){
 			writer.write(dataString);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

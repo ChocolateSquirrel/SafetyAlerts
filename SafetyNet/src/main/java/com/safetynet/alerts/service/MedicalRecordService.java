@@ -27,4 +27,17 @@ public class MedicalRecordService {
 		return medicalRecordRepository.findAll();
 	}
 
+	public void addMedicalRecord(MedicalRecord medicalRecord) {
+		medicalRecordRepository.add(medicalRecord);
+		
+	}
+
+	public void updateMedicalRecord(MedicalRecord medicalRecord) {
+		medicalRecordRepository.update(medicalRecord);
+	}
+	
+	public void deleteMedicalRecord(MedicalRecord medicalRecord) {
+		medicalRecordRepository.delete(medicalRecord);
+	}
+
 }
