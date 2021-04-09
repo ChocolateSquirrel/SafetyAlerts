@@ -9,9 +9,12 @@ public class Person {
 	private String phone;
 	private String email;
 
+	public Person() {
+		super();
+	}
+
 	public Person(String firstName, String lastname, String address, String city, String zip, String phone,
 			String email) {
-		super();
 		this.firstName = firstName;
 		this.lastname = lastname;
 		this.address = address;
