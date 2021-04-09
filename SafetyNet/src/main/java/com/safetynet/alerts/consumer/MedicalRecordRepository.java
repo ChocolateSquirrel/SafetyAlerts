@@ -15,5 +15,9 @@ public class MedicalRecordRepository {
 		this.dataHandler = dataHandler;
 		medicalRecords = dataHandler.getData().getMedicalrecords();
 	}
+	
+	public List<MedicalRecord> findAll(){
+		return medicalRecords;
+	}
 
 }

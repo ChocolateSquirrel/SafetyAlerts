@@ -1,7 +1,11 @@
 package com.safetynet.alerts.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.service.FireStationService;
 
 @RestController
@@ -10,6 +14,11 @@ public class FireStationController {
 
 	public FireStationController(FireStationService fireStationService) {
 		this.fireStationService = fireStationService;
+	}
+	
+	@GetMapping(value= "firestations")
+	public List<FireStation> getAllFiresStations(){
+		return fireStationService.getAllFireStations();
 	}
 	
 	
