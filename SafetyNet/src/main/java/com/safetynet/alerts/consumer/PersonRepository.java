@@ -27,6 +27,13 @@ public class PersonRepository {
 				.collect(Collectors.toList());
 		return personsFilteredByAddress;
 	}
+	
+	public List<Person> findByCity(String city){
+		List<Person> personsFilteredByCity = persons.stream()
+				.filter(p -> p.getCity().equalsIgnoreCase(city))
+				.collect(Collectors.toList());
+		return personsFilteredByCity;
+	}
 
 	// ------------------ Methods for add, update or delete a Person ----------------- //
 	public void add(Person person) {

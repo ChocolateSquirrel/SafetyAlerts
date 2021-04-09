@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,11 @@ public class PersonController {
 	@GetMapping(value = "persons")
 	public List<Person> getAllPersons() {
 		return personService.getAllPersons();
+	}
+	
+	@GetMapping(value = "communityEmail/{city}")
+	public List<String> getEmailOfPersonInCity(@PathVariable String city){
+		return personService.getMail(personService.getPersonInCity(city));
 	}
 	
 	@PostMapping(value = "person")

@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +40,18 @@ public class PersonService {
 	
 	public void deletePerson(Person person) {
 		personRepository.delete(person);
+	}
+	
+	public List<Person> getPersonInCity(String city){
+		return personRepository.findByCity(city);
+	}
+	
+	public List<String> getMail(List<Person> personList){
+		List<String> emailList = new ArrayList<>();
+		for (Person person : personList) {
+			emailList.add(person.getEmail());
+		}
+		return emailList;
 	}
 
 }
