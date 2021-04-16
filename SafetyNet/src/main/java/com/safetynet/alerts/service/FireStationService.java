@@ -17,7 +17,7 @@ public class FireStationService {
 	private final PersonRepository personRepository;
 	private final FireStationRepository fireStationRepository;
 	private final MedicalRecordRepository medicalRecordRepository;
-
+	
 	public FireStationService(PersonRepository personRepository, FireStationRepository fireStationRepository,
 			MedicalRecordRepository medicalRecordRepository) {
 		super();
@@ -55,7 +55,7 @@ public class FireStationService {
 		return addressCoveredByStation;
 	}
 
-	public List<Person> getPersonsCoveredByAFireStation(int stationNumber) {
+	public List<Person> getPeopleCoveredByAFireStation(int stationNumber) {
 		List<Person> personsCoverredByFireStation = new ArrayList<>();
 		for (String address : getAddressesCoveredByAFireStation(stationNumber)) {
 			personsCoverredByFireStation.addAll(personRepository.findByAddress(address));

@@ -1,6 +1,7 @@
 package com.safetynet.alerts.consumer;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,22 @@ public class MedicalRecordRepository {
 	public List<MedicalRecord> findAll() {
 		return medicalRecords;
 	}
-
+	
+	public List<MedicalRecord> findByLastName(String lastName) {
+		List<MedicalRecord> list = medicalRecords.stream()
+				.filter(m -> m.getLastName().equals(lastName))
+				.collect(Collectors.toList());
+		return list;
+	}
+	
+	public Optional<MedicalRecord> findByIdentity(String firstName, String lastName) {
+		Optional<MedicalRecord> mr = medicalRecords.stream()
+				.filter(m -> m.getFirstName().equals(firstName) && m.getLastName().equals(lastName))
+				.findFirst();
+		return mr;
+	}
+	
+	
 	public void add(MedicalRecord medicalRecord) {
 		medicalRecords.add(medicalRecord);
 		dataHandler.save();

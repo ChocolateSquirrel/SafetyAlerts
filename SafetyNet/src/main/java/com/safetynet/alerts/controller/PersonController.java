@@ -2,6 +2,8 @@ package com.safetynet.alerts.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +35,7 @@ public class PersonController {
 	}
 	
 	@PostMapping(value = "person")
-	public Person addPerson(@RequestBody Person ps) {
+	public Person addPerson(@Valid @RequestBody Person ps) {
 		Person person = new Person(ps.getFirstName(),
 				ps.getLastName(),
 				ps.getAddress(),

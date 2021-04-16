@@ -48,11 +48,5 @@ public class FireStationController {
 		return fireStation;
 	}
 	
-	
-	@GetMapping(value = "firestation/{stationNumber}" )
-	public List<Person> getPersonCoveredByAFireStation(@PathVariable int stationNumber){
-		return fireStationService.getPersonsCoveredByAFireStation(stationNumber);
-	}
-
 
 }

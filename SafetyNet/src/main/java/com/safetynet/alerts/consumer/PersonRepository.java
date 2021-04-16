@@ -1,6 +1,7 @@
 package com.safetynet.alerts.consumer;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -23,16 +24,30 @@ public class PersonRepository {
 	
 	public List<Person> findByAddress(String address){
 		List<Person> personsFilteredByAddress = persons.stream()
-				.filter(p -> p.getAddress().equalsIgnoreCase(address))
+				.filter(p -> address.equalsIgnoreCase(p.getAddress()))
 				.collect(Collectors.toList());
 		return personsFilteredByAddress;
 	}
 	
 	public List<Person> findByCity(String city){
 		List<Person> personsFilteredByCity = persons.stream()
-				.filter(p -> p.getCity().equalsIgnoreCase(city))
+				.filter(p -> city.equalsIgnoreCase(p.getCity()))
 				.collect(Collectors.toList());
 		return personsFilteredByCity;
+	}
+	
+	public List<Person> findByLastName(String lastName){
+		List<Person> personFilteredByLastName = persons.stream()
+				.filter(p -> lastName.equalsIgnoreCase(p.getLastName()))
+				.collect(Collectors.toList());
+		return personFilteredByLastName;
+	}
+	
+	public Optional<Person> findByIdentity(String firstName, String lastName){
+		Optional<Person> person = persons.stream()
+				.filter(p -> firstName.equalsIgnoreCase(p.getFirstName()) && lastName.equals(p.getLastName()))
+				.findFirst();
+		return person;
 	}
 
 	// ------------------ Methods for add, update or delete a Person ----------------- //
