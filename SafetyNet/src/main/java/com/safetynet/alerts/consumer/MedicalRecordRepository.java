@@ -27,27 +27,35 @@ public class MedicalRecordRepository {
 	}
 
 	public void update(MedicalRecord medicalRecord) {
-		List<MedicalRecord> list = medicalRecords.stream()
-				.filter(m -> m.getFirstName().equals(medicalRecord.getFirstName()) && m.getLastName().equals(medicalRecord.getLastName()) )
-				.collect(Collectors.toList());
-		if (!list.isEmpty()) {
-			MedicalRecord oldMedicalRecord = list.get(0);
-			oldMedicalRecord.setBirthdate(medicalRecord.getBirthdate());
-			oldMedicalRecord.setMedications(medicalRecord.getMedications());
-			oldMedicalRecord.setAllergies(medicalRecord.getAllergies());
-			dataHandler.save();
-		}		
+		medicalRecords.stream().filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
+				&& m.getLastName()
+				.equals(medicalRecord.getLastName()))
+				.findAny().ifPresent(m -> {
+					m.setBirthdate(medicalRecord.getBirthdate());
+					m.setMedications(medicalRecord.getMedications());
+					m.setAllergies(medicalRecord.getAllergies());
+					dataHandler.save();
+				});
 	}
-	
+
 	public void delete(MedicalRecord medicalRecord) {
-		List<MedicalRecord> list = medicalRecords.stream()
-				.filter(m -> m.getFirstName().equals(medicalRecord.getFirstName()) && m.getLastName().equals(medicalRecord.getLastName()))
-				.collect(Collectors.toList());
-		if (!list.isEmpty()) {
-			MedicalRecord medicalRecordToDelete = list.get(0);
-			medicalRecords.remove(medicalRecordToDelete);
+		medicalRecords.stream()
+		.filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
+						&& m.getLastName().equals(medicalRecord.getLastName()))
+		.findAny().ifPresent(m -> {
+			medicalRecords.remove(m);
 			dataHandler.save();
-		}
+		});
+		
+//		List<MedicalRecord> list = medicalRecords.stream()
+//				.filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
+//						&& m.getLastName().equals(medicalRecord.getLastName()))
+//				.collect(Collectors.toList());
+//		if (!list.isEmpty()) {
+//			MedicalRecord medicalRecordToDelete = list.get(0);
+//			medicalRecords.remove(medicalRecordToDelete);
+//			dataHandler.save();
+//		}
 	}
 
 }

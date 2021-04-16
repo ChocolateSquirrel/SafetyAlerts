@@ -43,7 +43,7 @@ public class PersonRepository {
 
 	public void update(Person person) {
 		List<Person> list = persons.stream()
-				.filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastname().equals(person.getLastname()))
+				.filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
 				.collect(Collectors.toList());
 		if (!list.isEmpty()) {
 			Person oldPerson = list.get(0);
@@ -58,7 +58,7 @@ public class PersonRepository {
 	
 	public void delete(Person person) {
 		List<Person> list = persons.stream()
-				.filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastname().equals(person.getLastname()))
+				.filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
 				.collect(Collectors.toList());
 		if (!list.isEmpty()) {
 			Person personToDelete = list.get(0);

@@ -35,7 +35,7 @@ public class PersonController {
 	@PostMapping(value = "person")
 	public Person addPerson(@RequestBody Person ps) {
 		Person person = new Person(ps.getFirstName(),
-				ps.getLastname(),
+				ps.getLastName(),
 				ps.getAddress(),
 				ps.getCity(),
 				ps.getZip(),
@@ -48,7 +48,7 @@ public class PersonController {
 	@PutMapping(value = "person")
 	public Person updatePerson(@RequestBody Person ps) {
 		Person person = new Person(ps.getFirstName(),
-				ps.getLastname(),
+				ps.getLastName(),
 				ps.getAddress(),
 				ps.getCity(),
 				ps.getZip(),
@@ -61,7 +61,7 @@ public class PersonController {
 	@DeleteMapping(value = "person")
 	public Person deletePerson(@RequestBody Person ps) {
 		Person person = new Person(ps.getFirstName(),
-				ps.getLastname(),
+				ps.getLastName(),
 				ps.getAddress(),
 				ps.getCity(),
 				ps.getZip(),
