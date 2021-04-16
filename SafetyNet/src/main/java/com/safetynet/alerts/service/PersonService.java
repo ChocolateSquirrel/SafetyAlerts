@@ -36,6 +36,10 @@ public class PersonService {
 		return personRepository.findAll();
 	}
 	
+	public List<Person> getPersonByAddress(String address){
+		return personRepository.findByAddress(address);
+	}
+	
 	public List<Person> getPersonByLastName(String lastName){
 		return personRepository.findByLastName(lastName);
 	}
@@ -89,6 +93,18 @@ public class PersonService {
 			if (personAge < MAJORITY) childrenList.add(person);
 		}
 		return childrenList;
+	}
+	
+	public List<Person> peopleLivingAtTheSameAddress(Person person){
+		String address = person.getAddress();
+		List<Person> livingAddress = getPersonByAddress(address);
+		livingAddress.remove(person);
+		return livingAddress;
+	}
+	
+	public String getBirthdate(Person person) {
+		Optional<MedicalRecord> medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
+		return medicalRecordPerson.get().getBirthdate();
 	}
 	
 	

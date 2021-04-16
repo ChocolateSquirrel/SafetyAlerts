@@ -18,6 +18,8 @@ public class FireStationDTO {
 		this.adultCount = adultCount;
 		this.childCount = childCount;
 	}
+	
+	
 
 	
 

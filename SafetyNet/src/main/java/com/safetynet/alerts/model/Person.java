@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import lombok.Data;
 
 @Data
@@ -47,11 +49,8 @@ public class Person {
 	
 	public int getAge(String birthdate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(BIRTHDATE_PATTERN);
-		System.out.print("La string de birthdate " + birthdate);
 		LocalDate birth = LocalDate.parse(birthdate, formatter);
-		System.out.print("La LocalDate de birthdate " + birth);
 		LocalDate now = LocalDate.now();
-		System.out.print("La LocalDate de now " + now);
 		return Period.between(birth, now).getYears();
 	}
 
