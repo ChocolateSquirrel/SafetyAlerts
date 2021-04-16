@@ -22,6 +22,7 @@ import com.safetynet.alerts.service.PersonService;
 import dto.ChildAlertDTO;
 import dto.FireStationDTO;
 
+
 @RestController
 public class AlertsController {
 	private final FireStationService fireStationService;
@@ -59,10 +60,21 @@ public class AlertsController {
 		List<ChildAlertDTO> childAlertList = new ArrayList<>();
 		for (Person child : children) {
 			String birthdate = personService.getBirthdate(child);
-			ChildAlertDTO childAlert = new ChildAlertDTO(child.getFirstName(), child.getLastName(), child.getAge(birthdate), personService.peopleLivingAtTheSameAddress(child));
+			ChildAlertDTO childAlert = new ChildAlertDTO(child.getFirstName(), child.getLastName(), child.getAge(birthdate), personService.getPeopleLivingAtTheSameAddress(child));
 			childAlertList.add(childAlert);
 		}
 		return childAlertList;
+	}
+	
+	@GetMapping(value = "phoneAlert/{firestation_number}")
+	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@PathVariable String firestation_number) {
+		List<Person> people = fireStationService.getPeopleCoveredByAFireStation(Integer.parseInt(firestation_number));
+		List<String> phoneList = new ArrayList<>();
+		for (Person person : people) {
+			if (phoneList.contains(person.getPhone())) continue;
+			phoneList.add(person.getPhone());
+		}
+		return phoneList;
 	}
 	
 	

@@ -95,9 +95,8 @@ public class PersonService {
 		return childrenList;
 	}
 	
-	public List<Person> peopleLivingAtTheSameAddress(Person person){
-		String address = person.getAddress();
-		List<Person> livingAddress = getPersonByAddress(address);
+	public List<Person> getPeopleLivingAtTheSameAddress(Person person){
+		List<Person> livingAddress = getPersonByAddress(person.getAddress());
 		livingAddress.remove(person);
 		return livingAddress;
 	}
