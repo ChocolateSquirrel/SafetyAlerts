@@ -43,24 +43,5 @@ public class FireStationService {
 		return fireStationRepository.findAll();
 	}
 
-	public List<FireStation> getFireStationsByNumber(int stationNumber) {
-		return fireStationRepository.findByStationNumber(stationNumber);
-	}
-
-	public List<String> getAddressesCoveredByAFireStation(int stationNumber) {
-		List<String> addressCoveredByStation = new ArrayList<>();
-		for (FireStation fireStation : getFireStationsByNumber(stationNumber)) {
-			addressCoveredByStation.add(fireStation.getAddress());
-		}
-		return addressCoveredByStation;
-	}
-
-	public List<Person> getPeopleCoveredByAFireStation(int stationNumber) {
-		List<Person> personsCoverredByFireStation = new ArrayList<>();
-		for (String address : getAddressesCoveredByAFireStation(stationNumber)) {
-			personsCoverredByFireStation.addAll(personRepository.findByAddress(address));
-		}
-		return personsCoverredByFireStation;
-	}
-
+	
 }

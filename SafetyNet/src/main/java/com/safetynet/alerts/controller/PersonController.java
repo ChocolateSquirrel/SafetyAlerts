@@ -29,11 +29,6 @@ public class PersonController {
 		return personService.getAllPersons();
 	}
 	
-	@GetMapping(value = "communityEmail/{city}")
-	public List<String> getEmailOfPersonInCity(@PathVariable String city){
-		return personService.getMail(personService.getPersonInCity(city));
-	}
-	
 	@PostMapping(value = "person")
 	public Person addPerson(@Valid @RequestBody Person ps) {
 		Person person = new Person(ps.getFirstName(),

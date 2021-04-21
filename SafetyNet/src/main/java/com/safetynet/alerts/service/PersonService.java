@@ -19,8 +19,6 @@ import com.safetynet.alerts.model.Person;
 @Service
 public class PersonService {
 	
-	private static final int MAJORITY = 18;
-	
 	private final PersonRepository personRepository;
 	private final FireStationRepository fireStationRepository;
 	private final MedicalRecordRepository medicalRecordRepository;
@@ -62,49 +60,6 @@ public class PersonService {
 		personRepository.delete(person);
 	}
 	
-	public List<Person> getPersonInCity(String city){
-		return personRepository.findByCity(city);
-	}
-	
-	
-	public List<String> getMail(List<Person> personList){
-		List<String> emailList = new ArrayList<>();
-		for (Person person : personList) {
-			emailList.add(person.getEmail());
-		}
-		return emailList;
-	}
-	
-	public List<Person> getAdults(List<Person> peopleList){
-		List<Person> adultsList = new ArrayList<>();
-		for (Person person : peopleList) {
-			Optional<MedicalRecord> medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
-			int personAge = person.getAge(medicalRecordPerson.get().getBirthdate());
-			if (personAge >= MAJORITY) adultsList.add(person);
-		}
-		return adultsList;
-	}
-	
-	public List<Person> getChildren(List<Person> peopleList){
-		List<Person> childrenList = new ArrayList<>();
-		for (Person person : peopleList) {
-			Optional<MedicalRecord> medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
-			int personAge = person.getAge(medicalRecordPerson.get().getBirthdate());
-			if (personAge < MAJORITY) childrenList.add(person);
-		}
-		return childrenList;
-	}
-	
-	public List<Person> getPeopleLivingAtTheSameAddress(Person person){
-		List<Person> livingAddress = getPersonByAddress(person.getAddress());
-		livingAddress.remove(person);
-		return livingAddress;
-	}
-	
-	public String getBirthdate(Person person) {
-		Optional<MedicalRecord> medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
-		return medicalRecordPerson.get().getBirthdate();
-	}
 	
 	
 
