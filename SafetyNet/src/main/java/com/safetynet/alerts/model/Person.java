@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
@@ -15,9 +15,9 @@ public class Person {
 	
 	private static final String BIRTHDATE_PATTERN = "MM/dd/yyyy";
 	
-	@NotNull
+	@NotBlank
 	private String firstName;
-	@NotNull
+	@NotBlank
 	private String lastName;
 
 	private String address;

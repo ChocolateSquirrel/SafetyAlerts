@@ -2,10 +2,12 @@ package com.safetynet.alerts.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,25 +39,20 @@ public class AlertsController {
 		this.personService = personService;
 	}
 	
-	@GetMapping(value ="firestation/{stationNumber}")
-	public FireStationDTO getPeopleCoveredByAFireStation(@PathVariable String stationNumber) throws Exception {
+	@GetMapping(value ="firestation")
+	public FireStationDTO getPeopleCoveredByAFireStation(@RequestParam String stationNumber) throws Exception {
 		List<Person> people = fireStationService.getPeopleCoveredByAFireStation(Integer.parseInt(stationNumber));
 		List<Person> adults = personService.getAdults(people);
 		List<Person> children = personService.getChildren(people);
-//		SimpleBeanPropertyFilter filtre = SimpleBeanPropertyFilter.serializeAllExcept("city", "zip", "email");
-//		FilterProvider listFiltre = new SimpleFilterProvider().addFilter("personFiltre", filtre);
-//		ObjectMapper om = new ObjectMapper();
-//		om.setFilterProvider(listFiltre);
-//		List<Person> personFiltre = new ArrayList<>();
-//		for (Person person : people) {
-//			personFiltre.add(JsonIterator.deserialize(om.writeValueAsString(person), Person.class));
-//		}
-		FireStationDTO fireDto = new FireStationDTO(people, adults.size(), children.size());
+		List<FireStationDTO.Person> person1 = people.stream().map(p -> 
+			new FireStationDTO.Person(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone())
+		).collect(Collectors.toList());
+		FireStationDTO fireDto = new FireStationDTO(person1, adults.size(), children.size());
 		return fireDto;
 	}
 	
-	@GetMapping(value = "childAlert/{address}")
-	public List<ChildAlertDTO> getChildrenLivingAt(@PathVariable String address) {
+	@GetMapping(value = "childAlert")
+	public List<ChildAlertDTO> getChildrenLivingAt(@RequestParam String address) {
 		List<Person> children = personService.getChildren(personService.getPersonByAddress(address));
 		List<ChildAlertDTO> childAlertList = new ArrayList<>();
 		for (Person child : children) {
@@ -66,8 +63,8 @@ public class AlertsController {
 		return childAlertList;
 	}
 	
-	@GetMapping(value = "phoneAlert/{firestation_number}")
-	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@PathVariable String firestation_number) {
+	@GetMapping(value = "phoneAlert/")
+	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@RequestParam String firestation_number) {
 		List<Person> people = fireStationService.getPeopleCoveredByAFireStation(Integer.parseInt(firestation_number));
 		List<String> phoneList = new ArrayList<>();
 		for (Person person : people) {

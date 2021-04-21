@@ -2,8 +2,6 @@ package dto;
 
 import java.util.List;
 
-import com.safetynet.alerts.model.Person;
-
 import lombok.Data;
 
 @Data
@@ -17,6 +15,23 @@ public class FireStationDTO {
 		this.people = people;
 		this.adultCount = adultCount;
 		this.childCount = childCount;
+	}
+	
+	@Data
+	public static class Person{
+		private String firstName;
+		private String lastName;
+		private String address;
+		private String phone;
+		
+		public Person(String firstName, String lastName, String address, String phone) {
+			this.firstName = firstName;
+			this.lastName = lastName;
+			this.address = address;
+			this.phone = phone;
+		}
+		
+		
 	}
 	
 	
