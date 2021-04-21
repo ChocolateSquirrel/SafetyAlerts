@@ -3,6 +3,7 @@ package com.safetynet.alerts.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,23 +20,23 @@ public class AlertsController {
 		this.alertsService = alertsService;
 	}
 
-	@GetMapping(value = "firestation")
-	public FireStationDTO getPeopleCoveredByAFireStation(@RequestParam String stationNumber) throws Exception {
+	@GetMapping(value = "firestation/{stationNumber}")
+	public FireStationDTO getPeopleCoveredByAFireStation(@PathVariable String stationNumber) throws Exception {
 		return alertsService.getPeopleCoveredByAFireStation(stationNumber);
 	}
 
-	@GetMapping(value = "childAlert")
-	public List<ChildAlertDTO> getChildrenLivingAt(@RequestParam String address) {
+	@GetMapping(value = "childAlert/{address}")
+	public List<ChildAlertDTO> getChildrenLivingAt(@PathVariable String address) {
 		return alertsService.getChildrenLivingAtAnAddress(address);
 	}
 
-	@GetMapping(value = "phoneAlert")
-	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@RequestParam String firestation_number) {
-		return alertsService.getPhoneNumberOfPeopleCoveredyFireStation(firestation_number);
+	@GetMapping(value = "phoneAlert/{stationNumber}")
+	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@PathVariable String stationNumber) {
+		return alertsService.getPhoneNumberOfPeopleCoveredyFireStation(stationNumber);
 	}
 	
-	@GetMapping(value = "communityEmail")
-	public List<String> getEmailOfPersonInCity(@RequestParam String city){
+	@GetMapping(value = "communityEmail/{city}")
+	public List<String> getEmailOfPersonInCity(@PathVariable String city){
 		return alertsService.getMailPeopleLivingInCity(city);
 	}
 
