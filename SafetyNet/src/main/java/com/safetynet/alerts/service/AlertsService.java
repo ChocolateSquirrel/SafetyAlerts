@@ -17,6 +17,7 @@ import com.safetynet.alerts.model.Person;
 
 import dto.ChildAlertDTO;
 import dto.FireStationDTO;
+import dto.PersonInfoDTO;
 
 @Service
 public class AlertsService {
@@ -66,6 +67,13 @@ public class AlertsService {
 			phoneList.add(person.getPhone());
 		}
 		return phoneList;
+	}
+	
+	public PersonInfoDTO getInfoForPerson(String firstName, String lastName) {
+		Optional<Person> person = personRepository.findByIdentity(firstName, lastName);
+		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(firstName, lastName);
+		PersonInfoDTO personInfo = new PersonInfoDTO(person.get().getFirstName(), person.get().getLastName(), person.get().getEmail(), medicalRecord.get().getMedications(), medicalRecord.get().getAllergies());
+		return personInfo;
 	}
 
 	public List<String> getMailPeopleLivingInCity(String city) {

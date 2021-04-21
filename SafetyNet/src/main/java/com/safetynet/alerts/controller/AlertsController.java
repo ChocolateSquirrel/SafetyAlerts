@@ -11,6 +11,7 @@ import com.safetynet.alerts.service.AlertsService;
 
 import dto.ChildAlertDTO;
 import dto.FireStationDTO;
+import dto.PersonInfoDTO;
 
 @RestController
 public class AlertsController {
@@ -38,6 +39,12 @@ public class AlertsController {
 	@GetMapping(value = "communityEmail/{city}")
 	public List<String> getEmailOfPersonInCity(@PathVariable String city){
 		return alertsService.getMailPeopleLivingInCity(city);
+	}
+	
+	//Voir commentgérer les pathvariables
+	@GetMapping(value = "personInfo/")
+	public PersonInfoDTO getInfo(@PathVariable String firstName, @PathVariable String lastName) {
+		return alertsService.getInfoForPerson(firstName, lastName);
 	}
 
 }

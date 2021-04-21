@@ -29,11 +29,6 @@ public class MedicalRecordService {
 	public List<MedicalRecord> getAllMedicalRecords(){
 		return medicalRecordRepository.findAll();
 	}
-	
-	public MedicalRecord getMedicalRecordByIdentity(String firstName, String lastName) {
-		Optional<MedicalRecord> opt = medicalRecordRepository.findByIdentity(firstName, lastName);
-		return opt.get();
-	}
 
 	public void addMedicalRecord(MedicalRecord medicalRecord) {
 		medicalRecordRepository.add(medicalRecord);	
