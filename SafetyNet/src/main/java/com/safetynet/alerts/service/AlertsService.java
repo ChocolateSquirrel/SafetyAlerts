@@ -17,6 +17,7 @@ import com.safetynet.alerts.model.Person;
 
 import dto.ChildAlertDTO;
 import dto.FireStationDTO;
+import dto.FloodDTO;
 import dto.PersonInfoDTO;
 
 @Service
@@ -69,6 +70,18 @@ public class AlertsService {
 		return phoneList;
 	}
 	
+
+	public List<FloodDTO> getHomesCoveredByFireStations(String station_number) {
+		List<FloodDTO> floodInfoList = new ArrayList<>();
+		for (String address : getAddressesCoveredByAFireStation(Integer.parseInt(station_number))) {
+			List<FloodDTO.Person> personFloodDtoList = getListOfPeopleLivingAt(address).stream()
+					.map(p -> changeIntoFloodDTOPerson(p)).collect(Collectors.toList());
+			FloodDTO floodDTO = new FloodDTO(address, personFloodDtoList);
+			floodInfoList.add(floodDTO);
+		}
+		return floodInfoList;
+	}
+	
 	public PersonInfoDTO getInfoForPerson(String firstName, String lastName) {
 		Optional<Person> person = personRepository.findByIdentity(firstName, lastName);
 		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(firstName, lastName);
@@ -89,6 +102,9 @@ public class AlertsService {
 		return personsCoverredByFireStation;
 	}
 	
+	private List<Person> getListOfPeopleLivingAt(String address){
+		return personRepository.findByAddress(address);
+	}
 	private List<Person> getListOfPeopleLivingAtTheSameAddress(Person person) {
 		List<Person> livingAddress = personRepository.findByAddress(person.getAddress());
 		livingAddress.remove(person);
@@ -102,6 +118,7 @@ public class AlertsService {
 		}
 		return emailList;
 	}
+
 
 	// ------------------------- Methods about Person and MedicalRecord --------------------//
 	private List<Person> getListOfAdults(List<Person> peopleList) {
@@ -133,6 +150,15 @@ public class AlertsService {
 				person.getLastName());
 		return medicalRecordPerson.get().getBirthdate();
 	}
+	
+	private FloodDTO.Person changeIntoFloodDTOPerson(Person person){
+		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
+		FloodDTO.Person personFloodDTO = new FloodDTO.Person(person.getFirstName(), person.getLastName(),
+				person.getPhone(), person.getAge(medicalRecord.get().getBirthdate()),
+				medicalRecord.get().getMedications(),
+				medicalRecord.get().getAllergies());
+		return personFloodDTO;
+	}
 
 	// -------------------------- Methods about FiresStation -----------------------//
 	private List<FireStation> getFireStationsByNumber(int stationNumber) {
@@ -146,5 +172,6 @@ public class AlertsService {
 		}
 		return addressCoveredByStation;
 	}
+
 
 }

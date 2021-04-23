@@ -10,6 +10,7 @@ import com.safetynet.alerts.service.AlertsService;
 
 import dto.ChildAlertDTO;
 import dto.FireStationDTO;
+import dto.FloodDTO;
 import dto.PersonInfoDTO;
 
 @RestController
@@ -35,14 +36,19 @@ public class AlertsController {
 		return alertsService.getPhoneNumberOfPeopleCoveredyFireStation(stationNumber);
 	}
 	
-	@GetMapping(value = "communityEmail")
-	public List<String> getEmailOfPersonInCity(@RequestParam String city){
-		return alertsService.getMailPeopleLivingInCity(city);
+	@GetMapping(value = "flood")
+	public List<FloodDTO> getHomesCoveredByFireStations(@RequestParam String station_number){
+		return alertsService.getHomesCoveredByFireStations(station_number);
 	}
+	
 	
 	@GetMapping(value = "personInfo")
 	public PersonInfoDTO getInfo(@RequestParam String firstName, @RequestParam String lastName) {
 		return alertsService.getInfoForPerson(firstName, lastName);
 	}
 
+	@GetMapping(value = "communityEmail")
+	public List<String> getEmailOfPersonInCity(@RequestParam String city){
+		return alertsService.getMailPeopleLivingInCity(city);
+	}
 }
