@@ -3,7 +3,6 @@ package com.safetynet.alerts.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,30 +19,29 @@ public class AlertsController {
 	public AlertsController(AlertsService alertsService) {
 		this.alertsService = alertsService;
 	}
-
-	@GetMapping(value = "firestation/{stationNumber}")
-	public FireStationDTO getPeopleCoveredByAFireStation(@PathVariable String stationNumber) throws Exception {
-		return alertsService.getPeopleCoveredByAFireStation(stationNumber);
+	
+	@GetMapping(value = "firestation")
+	public FireStationDTO getPeopleCoveredByAFireStation(@RequestParam String station_number){
+		return alertsService.getPeopleCoveredByAFireStation(station_number);
 	}
 
-	@GetMapping(value = "childAlert/{address}")
-	public List<ChildAlertDTO> getChildrenLivingAt(@PathVariable String address) {
+	@GetMapping(value = "childAlert")
+	public List<ChildAlertDTO> getChildrenLivingAt(@RequestParam String address) {
 		return alertsService.getChildrenLivingAtAnAddress(address);
 	}
 
-	@GetMapping(value = "phoneAlert/{stationNumber}")
-	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@PathVariable String stationNumber) {
+	@GetMapping(value = "phoneAlert")
+	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@RequestParam String stationNumber) {
 		return alertsService.getPhoneNumberOfPeopleCoveredyFireStation(stationNumber);
 	}
 	
-	@GetMapping(value = "communityEmail/{city}")
-	public List<String> getEmailOfPersonInCity(@PathVariable String city){
+	@GetMapping(value = "communityEmail")
+	public List<String> getEmailOfPersonInCity(@RequestParam String city){
 		return alertsService.getMailPeopleLivingInCity(city);
 	}
 	
-	//Voir commentgérer les pathvariables
-	@GetMapping(value = "personInfo/")
-	public PersonInfoDTO getInfo(@PathVariable String firstName, @PathVariable String lastName) {
+	@GetMapping(value = "personInfo")
+	public PersonInfoDTO getInfo(@RequestParam String firstName, @RequestParam String lastName) {
 		return alertsService.getInfoForPerson(firstName, lastName);
 	}
 
