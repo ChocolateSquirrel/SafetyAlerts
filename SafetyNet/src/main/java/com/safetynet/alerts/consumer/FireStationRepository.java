@@ -1,7 +1,5 @@
 package com.safetynet.alerts.consumer;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,14 +29,7 @@ public class FireStationRepository {
 			fs.setStation(fireStation.getStation());
 			dataHandler.save();
 		});
-		
-//		List<FireStation> list = firestations.stream().filter(fs -> fs.getAddress().equals(fireStation.getAddress()))
-//				.collect(Collectors.toList());
-//		if (!list.isEmpty()) {
-//			FireStation oldFireStation = list.get(0);
-//			oldFireStation.setStation(fireStation.getStation());
-//			dataHandler.save();
-//		}
+
 	}
 
 	public void delete(FireStation fireStation) {
@@ -49,14 +40,7 @@ public class FireStationRepository {
 			firestations.remove(f);
 			dataHandler.save();
 		});
-		
-//		List<FireStation> list = firestations.stream().filter(fs -> fs.getAddress().equals(fireStation.getAddress())
-//				&& fs.getStation().equals(fireStation.getStation())).collect(Collectors.toList());
-//		if (!list.isEmpty()) {
-//			FireStation fireStationToDelete = list.get(0);
-//			firestations.remove(fireStationToDelete);
-//			dataHandler.save();
-//		}
+
 	}
 
 	public List<FireStation> findAll() {
