@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.service.AlertsService;
 
-import dto.ChildAlertDTO;
-import dto.FireStationDTO;
-import dto.FloodDTO;
-import dto.PersonInfoDTO;
+import com.safetynet.alerts.service.dto.ChildAlertDTO;
+import com.safetynet.alerts.service.dto.FireStationDTO;
+import com.safetynet.alerts.service.dto.FloodDTO;
+import com.safetynet.alerts.service.dto.PersonInfoDTO;
 
 @RestController
 public class AlertsController {

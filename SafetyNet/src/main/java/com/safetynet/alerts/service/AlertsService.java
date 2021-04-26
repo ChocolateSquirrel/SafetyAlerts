@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.safetynet.alerts.consumer.FireStationRepository;
 import com.safetynet.alerts.consumer.MedicalRecordRepository;
@@ -15,10 +14,10 @@ import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
-import dto.ChildAlertDTO;
-import dto.FireStationDTO;
-import dto.FloodDTO;
-import dto.PersonInfoDTO;
+import com.safetynet.alerts.service.dto.ChildAlertDTO;
+import com.safetynet.alerts.service.dto.FireStationDTO;
+import com.safetynet.alerts.service.dto.FloodDTO;
+import com.safetynet.alerts.service.dto.PersonInfoDTO;
 
 @Service
 public class AlertsService {
