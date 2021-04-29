@@ -6,34 +6,15 @@ import lombok.Data;
 
 @Data
 public class FloodDTO {
-	private String address;
-	private List<Person> peopleAtHome;
-
-	public FloodDTO(String address, List<Person> peopleAtHome) {
+	private int stationNumber;
+	List<FloodDTOInfo> infoFloodList;
+	
+	public FloodDTO(int stationNumber, List<FloodDTOInfo> infoFloodList) {
 		super();
-		this.address = address;
-		this.peopleAtHome = peopleAtHome;
+		this.stationNumber = stationNumber;
+		this.infoFloodList = infoFloodList;
 	}
+	
+	
 
-	@Data
-	public static class Person {
-		private String firstName;
-		private String lastName;
-		private String phone;
-		private int age;
-		private List<String> medicaments;
-		private List<String> allergies;
-
-		public Person(String firstName, String lastName, String phone, int age, List<String> medicaments,
-				List<String> allergies) {
-			super();
-			this.firstName = firstName;
-			this.lastName = lastName;
-			this.phone = phone;
-			this.age = age;
-			this.medicaments = medicaments;
-			this.allergies = allergies;
-		}
-
-	}
 }

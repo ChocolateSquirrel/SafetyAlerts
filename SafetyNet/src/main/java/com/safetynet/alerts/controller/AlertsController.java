@@ -11,6 +11,7 @@ import com.safetynet.alerts.service.AlertsService;
 import dto.ChildAlertDTO;
 import dto.FireStationDTO;
 import dto.FloodDTO;
+import dto.FloodDTOInfo;
 import dto.PersonInfoDTO;
 
 @RestController
@@ -37,8 +38,8 @@ public class AlertsController {
 	}
 	
 	@GetMapping(value = "flood")
-	public List<FloodDTO> getHomesCoveredByFireStations(@RequestParam String station_number){
-		return alertsService.getHomesCoveredByFireStations(station_number);
+	public List<FloodDTO> getHomesCoveredByDiversesFireStations(@RequestParam List<String> station_number){
+		return alertsService.getHomesCoveredByDiversesFireStations(station_number);
 	}
 	
 	

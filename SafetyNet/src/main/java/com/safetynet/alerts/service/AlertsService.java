@@ -18,6 +18,7 @@ import com.safetynet.alerts.model.Person;
 import dto.ChildAlertDTO;
 import dto.FireStationDTO;
 import dto.FloodDTO;
+import dto.FloodDTOInfo;
 import dto.PersonInfoDTO;
 
 @Service
@@ -69,17 +70,15 @@ public class AlertsService {
 		}
 		return phoneList;
 	}
-	
 
-	public List<FloodDTO> getHomesCoveredByFireStations(String station_number) {
-		List<FloodDTO> floodInfoList = new ArrayList<>();
-		for (String address : getAddressesCoveredByAFireStation(Integer.parseInt(station_number))) {
-			List<FloodDTO.Person> personFloodDtoList = getListOfPeopleLivingAt(address).stream()
-					.map(p -> changeIntoFloodDTOPerson(p)).collect(Collectors.toList());
-			FloodDTO floodDTO = new FloodDTO(address, personFloodDtoList);
-			floodInfoList.add(floodDTO);
+	public List<FloodDTO> getHomesCoveredByDiversesFireStations(List<String> fireStationList){
+		List<FloodDTO> floodList = new ArrayList<>();
+		for (String fireStation : fireStationList) {
+			int fireStationNumber = Integer.parseInt(fireStation);
+			FloodDTO flood = new FloodDTO(fireStationNumber, getHomesCoveredByAFireStation(fireStationNumber));
+			floodList.add(flood);
 		}
-		return floodInfoList;
+		return floodList;
 	}
 	
 	public PersonInfoDTO getInfoForPerson(String firstName, String lastName) {
@@ -151,9 +150,9 @@ public class AlertsService {
 		return medicalRecordPerson.get().getBirthdate();
 	}
 	
-	private FloodDTO.Person changeIntoFloodDTOPerson(Person person){
+	private FloodDTOInfo.Person changeIntoFloodDTOPerson(Person person){
 		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
-		FloodDTO.Person personFloodDTO = new FloodDTO.Person(person.getFirstName(), person.getLastName(),
+		FloodDTOInfo.Person personFloodDTO = new FloodDTOInfo.Person(person.getFirstName(), person.getLastName(),
 				person.getPhone(), person.getAge(medicalRecord.get().getBirthdate()),
 				medicalRecord.get().getMedications(),
 				medicalRecord.get().getAllergies());
@@ -171,6 +170,17 @@ public class AlertsService {
 			addressCoveredByStation.add(fireStation.getAddress());
 		}
 		return addressCoveredByStation;
+	}
+	
+	private List<FloodDTOInfo> getHomesCoveredByAFireStation(int station_number) {
+		List<FloodDTOInfo> floodInfoList = new ArrayList<>();
+		for (String address : getAddressesCoveredByAFireStation(station_number)) {
+			List<FloodDTOInfo.Person> personFloodDtoList = getListOfPeopleLivingAt(address).stream()
+					.map(p -> changeIntoFloodDTOPerson(p)).collect(Collectors.toList());
+			FloodDTOInfo floodDTO = new FloodDTOInfo(address, personFloodDtoList);
+			floodInfoList.add(floodDTO);
+		}
+		return floodInfoList;
 	}
 
 
