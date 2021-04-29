@@ -23,8 +23,8 @@ public class AlertsController {
 	}
 	
 	@GetMapping(value = "firestation")
-	public FireStationDTO getPeopleCoveredByAFireStation(@RequestParam String station_number){
-		return alertsService.getPeopleCoveredByAFireStation(station_number);
+	public FireStationDTO getPeopleCoveredByAFireStation(@RequestParam String stationNumber){
+		return alertsService.getPeopleCoveredByAFireStation(stationNumber);
 	}
 
 	@GetMapping(value = "childAlert")
@@ -33,13 +33,13 @@ public class AlertsController {
 	}
 
 	@GetMapping(value = "phoneAlert")
-	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@RequestParam String stationNumber) {
-		return alertsService.getPhoneNumberOfPeopleCoveredyFireStation(stationNumber);
+	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@RequestParam String firestation) {
+		return alertsService.getPhoneNumberOfPeopleCoveredyFireStation(firestation);
 	}
 	
 	@GetMapping(value = "flood")
-	public List<FloodDTO> getHomesCoveredByDiversesFireStations(@RequestParam List<String> station_number){
-		return alertsService.getHomesCoveredByDiversesFireStations(station_number);
+	public List<FloodDTO> getHomesCoveredByDiversesFireStations(@RequestParam List<String> stations){
+		return alertsService.getHomesCoveredByDiversesFireStations(stations);
 	}
 	
 	
