@@ -43,7 +43,7 @@ public class AlertsController {
 		return alertsService.getPeopleLivingAtThisAddress(address);
 	}
 	
-	@GetMapping(value = "flood")
+	@GetMapping(value = "flood/stations")
 	public List<FloodDTO> getHomesCoveredByDiversesFireStations(@RequestParam List<String> stations){
 		return alertsService.getHomesCoveredByDiversesFireStations(stations);
 	}

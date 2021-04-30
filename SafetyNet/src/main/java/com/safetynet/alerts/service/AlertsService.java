@@ -51,14 +51,10 @@ public class AlertsService {
 
 	public List<ChildAlertDTO> getChildrenLivingAtAnAddress(String address) {
 		List<Person> children = getListOfChildren(personRepository.findByAddress(address));
-		List<ChildAlertDTO> childAlertList = new ArrayList<>();
-		for (Person child : children) {
-			String birthdate = getBirthdate(child);
-			ChildAlertDTO childAlert = new ChildAlertDTO(child.getFirstName(), child.getLastName(),
-					child.getAge(birthdate), getListOfPeopleLivingAtTheSameAddress(child));
-			childAlertList.add(childAlert);
-		}
-		return childAlertList;
+		return children.stream()
+				.map(c -> new ChildAlertDTO(c.getFirstName(), c.getLastName(),
+					c.getAge(getBirthdate(c)), getListOfPeopleLivingAtTheSameAddress(c)))
+				.collect(Collectors.toList());
 	}
 
 	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(String stationNumber) {
@@ -78,13 +74,9 @@ public class AlertsService {
 	}
 	
 	public List<FloodDTO> getHomesCoveredByDiversesFireStations(List<String> fireStationList){
-		List<FloodDTO> floodList = new ArrayList<>();
-		for (String fireStation : fireStationList) {
-			int fireStationNumber = Integer.parseInt(fireStation);
-			FloodDTO flood = new FloodDTO(fireStationNumber, getHomesCoveredByAFireStation(fireStationNumber));
-			floodList.add(flood);
-		}
-		return floodList;
+		return fireStationList.stream().map(fs -> 
+			new FloodDTO(Integer.parseInt(fs), getHomesCoveredByAFireStation(Integer.parseInt(fs)))
+		).collect(Collectors.toList());
 	}
 	
 	public PersonInfoDTO getInfoForPerson(String firstName, String lastName) {
@@ -117,11 +109,7 @@ public class AlertsService {
 	}
 
 	private List<String> getListOfMail(List<Person> personList) {
-		List<String> emailList = new ArrayList<>();
-		for (Person person : personList) {
-			emailList.add(person.getEmail());
-		}
-		return emailList;
+		 return personList.stream().map(p -> p.getEmail()).collect(Collectors.toList());
 	}
 	
 	private List<FireDTO.Person> getHomesForThisAddress(String address){
@@ -191,11 +179,7 @@ public class AlertsService {
 	}
 
 	private List<String> getAddressesCoveredByAFireStation(int stationNumber) {
-		List<String> addressCoveredByStation = new ArrayList<>();
-		for (FireStation fireStation : getFireStationsByNumber(stationNumber)) {
-			addressCoveredByStation.add(fireStation.getAddress());
-		}
-		return addressCoveredByStation;
+		return getFireStationsByNumber(stationNumber).stream().map(fs -> fs.getAddress()).collect(Collectors.toList());
 	}
 	
 	private List<FloodDTOInfo> getHomesCoveredByAFireStation(int station_number) {
@@ -208,10 +192,4 @@ public class AlertsService {
 		}
 		return floodInfoList;
 	}
-	
-	
-
-
-
-
 }
