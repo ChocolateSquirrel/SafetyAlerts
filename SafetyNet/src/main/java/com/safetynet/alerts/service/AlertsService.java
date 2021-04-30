@@ -16,6 +16,7 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
 import dto.ChildAlertDTO;
+import dto.FireDTO;
 import dto.FireStationDTO;
 import dto.FloodDTO;
 import dto.FloodDTOInfo;
@@ -71,6 +72,11 @@ public class AlertsService {
 		return phoneList;
 	}
 
+	public FireDTO getPeopleLivingAtThisAddress(String address) {
+		int stationNumber = getFireStationNumberForThisAddress(address);
+		return new FireDTO(getHomesForThisAddress(address), stationNumber);
+	}
+	
 	public List<FloodDTO> getHomesCoveredByDiversesFireStations(List<String> fireStationList){
 		List<FloodDTO> floodList = new ArrayList<>();
 		for (String fireStation : fireStationList) {
@@ -117,6 +123,11 @@ public class AlertsService {
 		}
 		return emailList;
 	}
+	
+	private List<FireDTO.Person> getHomesForThisAddress(String address){
+		List<Person> people = getListOfPeopleLivingAt(address);
+		return people.stream().map(p -> changeIntoFireDTOPerson(p)).collect(Collectors.toList());			
+	}
 
 
 	// ------------------------- Methods about Person and MedicalRecord --------------------//
@@ -158,10 +169,25 @@ public class AlertsService {
 				medicalRecord.get().getAllergies());
 		return personFloodDTO;
 	}
+	
+	private FireDTO.Person changeIntoFireDTOPerson(Person person){
+		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
+		FireDTO.Person personFireDTO = new FireDTO.Person(person.getFirstName(),
+				person.getLastName(),
+				person.getPhone(),
+				person.getAge(medicalRecord.get().getBirthdate()),
+				medicalRecord.get().getMedications(),
+				medicalRecord.get().getAllergies());
+		return personFireDTO;
+	}
 
 	// -------------------------- Methods about FiresStation -----------------------//
 	private List<FireStation> getFireStationsByNumber(int stationNumber) {
 		return fireStationRepository.findByStationNumber(stationNumber);
+	}
+	
+	private int getFireStationNumberForThisAddress(String address) {
+		return fireStationRepository.findByAddress(address);
 	}
 
 	private List<String> getAddressesCoveredByAFireStation(int stationNumber) {
@@ -182,6 +208,10 @@ public class AlertsService {
 		}
 		return floodInfoList;
 	}
+	
+	
+
+
 
 
 }

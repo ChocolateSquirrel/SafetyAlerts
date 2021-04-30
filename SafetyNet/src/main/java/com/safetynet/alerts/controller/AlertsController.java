@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetynet.alerts.service.AlertsService;
 
 import dto.ChildAlertDTO;
+import dto.FireDTO;
 import dto.FireStationDTO;
 import dto.FloodDTO;
 import dto.FloodDTOInfo;
@@ -35,6 +36,11 @@ public class AlertsController {
 	@GetMapping(value = "phoneAlert")
 	public List<String> getPhoneNumberOfPeopleCoveredyFireStation(@RequestParam String firestation) {
 		return alertsService.getPhoneNumberOfPeopleCoveredyFireStation(firestation);
+	}
+	
+	@GetMapping(value = "fire")
+	public FireDTO getPeopleLivingAtThisAddress(@RequestParam String address) {
+		return alertsService.getPeopleLivingAtThisAddress(address);
 	}
 	
 	@GetMapping(value = "flood")

@@ -1,6 +1,7 @@
 package com.safetynet.alerts.consumer;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -51,6 +52,14 @@ public class FireStationRepository {
 		List<FireStation> fireStationsFilteredByNumber = firestations.stream()
 				.filter(fs -> Integer.parseInt(fs.getStation()) == stationNumber).collect(Collectors.toList());
 		return fireStationsFilteredByNumber;
+	}
+
+	public int findByAddress(String address) {
+		Optional<FireStation> optFireStation = firestations.stream().filter(fs -> fs.getAddress().equals(address)).findFirst();
+		if (optFireStation.isPresent())
+			return Integer.parseInt(optFireStation.get().getStation());
+		else 
+			throw new RuntimeException("This address is not registered and there is no firestation linked to it");
 	}
 
 }
