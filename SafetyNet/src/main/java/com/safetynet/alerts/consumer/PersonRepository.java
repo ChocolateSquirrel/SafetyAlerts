@@ -25,26 +25,30 @@ public class PersonRepository {
 	public List<Person> findByAddress(String address) {
 		List<Person> personsFilteredByAddress = persons.stream().filter(p -> address.equalsIgnoreCase(p.getAddress()))
 				.collect(Collectors.toList());
-		return personsFilteredByAddress;
+		if (!personsFilteredByAddress.isEmpty()) return personsFilteredByAddress;
+		else throw new RuntimeException("Anybody live at this address: " + address);
 	}
 
 	public List<Person> findByCity(String city) {
 		List<Person> personsFilteredByCity = persons.stream().filter(p -> city.equalsIgnoreCase(p.getCity()))
 				.collect(Collectors.toList());
-		return personsFilteredByCity;
+		if (!personsFilteredByCity.isEmpty()) return personsFilteredByCity;
+		else throw new RuntimeException("Anybody live in this city: " + city);
 	}
 
 	public List<Person> findByLastName(String lastName) {
 		List<Person> personFilteredByLastName = persons.stream().filter(p -> lastName.equalsIgnoreCase(p.getLastName()))
 				.collect(Collectors.toList());
-		return personFilteredByLastName;
+		if (!personFilteredByLastName.isEmpty()) return personFilteredByLastName;
+		else throw new RuntimeException("No one have this lastName: " + lastName);
 	}
 
 	public Optional<Person> findByIdentity(String firstName, String lastName) {
 		Optional<Person> person = persons.stream()
 				.filter(p -> firstName.equalsIgnoreCase(p.getFirstName()) && lastName.equals(p.getLastName()))
 				.findFirst();
-		return person;
+		if (person.isPresent()) return person;
+		else throw new RuntimeException("No one is called: " + firstName + " " + lastName);
 	}
 
 	// ----------------- Methods for add, update or delete a Person ----------------- //

@@ -51,15 +51,14 @@ public class FireStationRepository {
 	public List<FireStation> findByStationNumber(int stationNumber) {
 		List<FireStation> fireStationsFilteredByNumber = firestations.stream()
 				.filter(fs -> Integer.parseInt(fs.getStation()) == stationNumber).collect(Collectors.toList());
-		return fireStationsFilteredByNumber;
+		if (!fireStationsFilteredByNumber.isEmpty()) return fireStationsFilteredByNumber;
+		else throw new RuntimeException("There is no fireStation number " + stationNumber);
 	}
 
 	public int findByAddress(String address) {
 		Optional<FireStation> optFireStation = firestations.stream().filter(fs -> fs.getAddress().equals(address)).findFirst();
-		if (optFireStation.isPresent())
-			return Integer.parseInt(optFireStation.get().getStation());
-		else 
-			throw new RuntimeException("This address is not registered and there is no firestation linked to it");
+		if (optFireStation.isPresent()) return Integer.parseInt(optFireStation.get().getStation());
+		else throw new RuntimeException("This address: (" + address + ") is not registered and there is no firestation linked to it");
 	}
 
 }

@@ -26,14 +26,16 @@ public class MedicalRecordRepository {
 		List<MedicalRecord> list = medicalRecords.stream()
 				.filter(m -> m.getLastName().equals(lastName))
 				.collect(Collectors.toList());
-		return list;
+		if (!list.isEmpty()) return list;
+		else throw new RuntimeException("No medical records for this lastName: " + lastName);
 	}
 	
 	public Optional<MedicalRecord> findByIdentity(String firstName, String lastName) {
 		Optional<MedicalRecord> mr = medicalRecords.stream()
 				.filter(m -> m.getFirstName().equals(firstName) && m.getLastName().equals(lastName))
 				.findFirst();
-		return mr;
+		if (mr.isPresent()) return mr;
+		else throw new RuntimeException("No medical records for " + firstName + " " + lastName);
 	}
 	
 	
@@ -63,15 +65,6 @@ public class MedicalRecordRepository {
 			dataHandler.save();
 		});
 		
-//		List<MedicalRecord> list = medicalRecords.stream()
-//				.filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
-//						&& m.getLastName().equals(medicalRecord.getLastName()))
-//				.collect(Collectors.toList());
-//		if (!list.isEmpty()) {
-//			MedicalRecord medicalRecordToDelete = list.get(0);
-//			medicalRecords.remove(medicalRecordToDelete);
-//			dataHandler.save();
-//		}
 	}
 
 }
