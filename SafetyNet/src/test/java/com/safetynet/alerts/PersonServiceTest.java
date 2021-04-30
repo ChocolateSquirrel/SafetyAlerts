@@ -67,10 +67,10 @@ public class PersonServiceTest {
 		verify(personRepository, times(1)).findByLastName(any(String.class));
 	}
 	
-//	@Test
-//	public void getPersonByIdentityTest() {
-//		personService.getPersonByIdentity("", "");
-//		verify(personRepository, times(1)).findByIdentity(any(String.class), any(String.class));
-//	}
+	@Test
+	public void getPersonByIdentityTest() {
+		personService.getPersonByIdentity("", "");
+		verify(personRepository, times(1)).findByIdentity(any(String.class), any(String.class));
+	}
 
 }

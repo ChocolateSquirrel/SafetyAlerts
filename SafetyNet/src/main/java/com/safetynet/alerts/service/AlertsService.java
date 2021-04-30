@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.safetynet.alerts.consumer.FireStationRepository;
 import com.safetynet.alerts.consumer.MedicalRecordRepository;
@@ -80,9 +79,9 @@ public class AlertsService {
 	}
 	
 	public PersonInfoDTO getInfoForPerson(String firstName, String lastName) {
-		Optional<Person> person = personRepository.findByIdentity(firstName, lastName);
+		Person person = personRepository.findByIdentity(firstName, lastName);
 		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(firstName, lastName);
-		PersonInfoDTO personInfo = new PersonInfoDTO(person.get().getFirstName(), person.get().getLastName(), person.get().getAge(medicalRecord.get().getBirthdate()), person.get().getEmail(), medicalRecord.get().getMedications(), medicalRecord.get().getAllergies());
+		PersonInfoDTO personInfo = new PersonInfoDTO(person.getFirstName(), person.getLastName(), person.getAge(medicalRecord.get().getBirthdate()), person.getEmail(), medicalRecord.get().getMedications(), medicalRecord.get().getAllergies());
 		return personInfo;
 	}
 

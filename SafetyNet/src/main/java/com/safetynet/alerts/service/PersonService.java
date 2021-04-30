@@ -43,8 +43,7 @@ public class PersonService {
 	}
 	
 	public Person getPersonByIdentity(String firstName, String lastName) {
-		Optional<Person> person = personRepository.findByIdentity(firstName, lastName);
-		return person.get();
+		return personRepository.findByIdentity(firstName, lastName);
 	}
 
 	// ------------------ Methods for add, update or delete a Person ----------------- //

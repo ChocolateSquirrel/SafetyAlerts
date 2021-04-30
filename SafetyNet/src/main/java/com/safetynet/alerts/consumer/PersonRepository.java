@@ -43,11 +43,11 @@ public class PersonRepository {
 		else throw new RuntimeException("No one have this lastName: " + lastName);
 	}
 
-	public Optional<Person> findByIdentity(String firstName, String lastName) {
+	public Person findByIdentity(String firstName, String lastName) {
 		Optional<Person> person = persons.stream()
 				.filter(p -> firstName.equalsIgnoreCase(p.getFirstName()) && lastName.equals(p.getLastName()))
 				.findFirst();
-		if (person.isPresent()) return person;
+		if (person.isPresent()) return person.get();
 		else throw new RuntimeException("No one is called: " + firstName + " " + lastName);
 	}
 
@@ -58,27 +58,27 @@ public class PersonRepository {
 	}
 
 	public void update(Person person) {
-		persons.stream().filter(
-				p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
-				.findAny().ifPresent(p -> {
-					p.setAddress(person.getAddress());
-					p.setCity(person.getCity());
-					p.setZip(person.getZip());
-					p.setPhone(person.getPhone());
-					p.setEmail(person.getEmail());
-					dataHandler.save();
-				});
-
+		Optional<Person> personToUpdate = persons.stream().filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())).findAny();
+		if (personToUpdate.isPresent()) {
+			Person p = personToUpdate.get();
+			p.setAddress(person.getAddress());
+			p.setCity(person.getCity());
+			p.setZip(person.getZip());
+			p.setPhone(person.getPhone());
+			p.setEmail(person.getEmail());
+			dataHandler.save();
+		}
+		else throw new RuntimeException(person.getFirstName() + " " + person.getLastName() + " is not a person in our file");
 	}
 
 	public void delete(Person person) {
-		persons.stream().filter(
-				p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName()))
-				.findAny().ifPresent(p -> {
-					persons.remove(p);
-					dataHandler.save();
-				});
-
+		Optional<Person> personToDelete = persons.stream().filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())).findAny();
+		if (personToDelete.isPresent()) {
+			Person p = personToDelete.get();
+			persons.remove(p);
+			dataHandler.save();
+		}
+		else throw new RuntimeException(person.getFirstName() + " " + person.getLastName() + " is not a person in our file");
 	}
 
 }
