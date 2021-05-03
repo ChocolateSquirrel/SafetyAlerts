@@ -10,16 +10,15 @@ import org.springframework.stereotype.Service;
 import com.safetynet.alerts.consumer.FireStationRepository;
 import com.safetynet.alerts.consumer.MedicalRecordRepository;
 import com.safetynet.alerts.consumer.PersonRepository;
+import com.safetynet.alerts.dto.ChildAlertDTO;
+import com.safetynet.alerts.dto.FireDTO;
+import com.safetynet.alerts.dto.FireStationDTO;
+import com.safetynet.alerts.dto.FloodDTO;
+import com.safetynet.alerts.dto.FloodDTOInfo;
+import com.safetynet.alerts.dto.PersonInfoDTO;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
-
-import dto.ChildAlertDTO;
-import dto.FireDTO;
-import dto.FireStationDTO;
-import dto.FloodDTO;
-import dto.FloodDTOInfo;
-import dto.PersonInfoDTO;
 
 @Service
 public class AlertsService {

@@ -1,4 +1,4 @@
-package dto;
+package com.safetynet.alerts.dto;
 
 import java.util.List;
 

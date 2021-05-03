@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.dto.ChildAlertDTO;
+import com.safetynet.alerts.dto.FireDTO;
+import com.safetynet.alerts.dto.FireStationDTO;
+import com.safetynet.alerts.dto.FloodDTO;
+import com.safetynet.alerts.dto.FloodDTOInfo;
+import com.safetynet.alerts.dto.PersonInfoDTO;
 import com.safetynet.alerts.service.AlertsService;
-
-import dto.ChildAlertDTO;
-import dto.FireDTO;
-import dto.FireStationDTO;
-import dto.FloodDTO;
-import dto.FloodDTOInfo;
-import dto.PersonInfoDTO;
 
 @RestController
 public class AlertsController {
