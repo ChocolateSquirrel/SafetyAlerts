@@ -18,29 +18,33 @@ public class FireStationRepository {
 		firestations = dataHandler.getData().getFirestations();
 	}
 
-	// ------------------ Methods for add, update or delete a fireStation ----------------- /
+	// ------------------ Methods for add, update or delete a fireStation
+	// ----------------- /
 	public void saveFireStation(FireStation firestation) {
 		firestations.add(firestation);
 		dataHandler.save();
 	}
 
 	public void updateFireStation(FireStation fireStation) {
-		firestations.stream().filter(fs -> fs.getAddress().equals(fireStation.getAddress()))
-		.findAny().ifPresent(fs -> {
+		Optional<FireStation> fireStationToUpdate = firestations.stream()
+				.filter(fs -> fs.getAddress().equals(fireStation.getAddress())).findFirst();
+		if (fireStationToUpdate.isPresent()) {
+			FireStation fs = fireStationToUpdate.get();
 			fs.setStation(fireStation.getStation());
 			dataHandler.save();
-		});
-
+		} else
+			throw new RuntimeException("No fireStation for address: " + fireStation.getAddress());
 	}
 
 	public void delete(FireStation fireStation) {
-		firestations.stream()
-		.filter(fs -> fs.getAddress().equals(fireStation.getAddress())
-				&& fs.getStation().equals(fireStation.getStation()))
-		.findAny().ifPresent(f -> {
-			firestations.remove(f);
+		Optional<FireStation> fireStationToDelete = firestations.stream()
+				.filter(fs -> fs.getAddress().equals(fireStation.getAddress())).findFirst();
+		if (fireStationToDelete.isPresent()) {
+			FireStation fs = fireStationToDelete.get();
+			firestations.remove(fs);
 			dataHandler.save();
-		});
+		} else
+			throw new RuntimeException("No fireStation for address: " + fireStation.getAddress());
 
 	}
 
@@ -51,14 +55,29 @@ public class FireStationRepository {
 	public List<FireStation> findByStationNumber(int stationNumber) {
 		List<FireStation> fireStationsFilteredByNumber = firestations.stream()
 				.filter(fs -> Integer.parseInt(fs.getStation()) == stationNumber).collect(Collectors.toList());
-		if (!fireStationsFilteredByNumber.isEmpty()) return fireStationsFilteredByNumber;
-		else throw new RuntimeException("There is no fireStation number " + stationNumber);
+		if (!fireStationsFilteredByNumber.isEmpty())
+			return fireStationsFilteredByNumber;
+		else
+			throw new RuntimeException("There is no fireStation number " + stationNumber);
 	}
 
 	public int findByAddress(String address) {
-		Optional<FireStation> optFireStation = firestations.stream().filter(fs -> fs.getAddress().equals(address)).findFirst();
-		if (optFireStation.isPresent()) return Integer.parseInt(optFireStation.get().getStation());
-		else throw new RuntimeException("This address: (" + address + ") is not registered and there is no firestation linked to it");
+		Optional<FireStation> optFireStation = firestations.stream().filter(fs -> fs.getAddress().equals(address))
+				.findFirst();
+		if (optFireStation.isPresent())
+			return Integer.parseInt(optFireStation.get().getStation());
+		else
+			throw new RuntimeException(
+					"This address: (" + address + ") is not registered and there is no firestation linked to it");
+	}
+
+	public FireStation findAFireStation(String address, String stationNumber) {
+		Optional<FireStation> optFireStation = firestations.stream()
+				.filter(fs -> fs.getAddress().equals(address) && fs.getStation().equals(stationNumber)).findFirst();
+		if (optFireStation.isPresent())
+			return optFireStation.get();
+		else
+			throw new RuntimeException("No fireStation for address: " + address + " and number: " + stationNumber);
 	}
 
 }
