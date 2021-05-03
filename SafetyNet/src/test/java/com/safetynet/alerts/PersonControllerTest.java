@@ -29,7 +29,7 @@ import com.safetynet.alerts.model.Person;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest(classes = SafetyNetApplicationTest.class)
-public class PersonControllerTestIT {
+public class PersonControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
