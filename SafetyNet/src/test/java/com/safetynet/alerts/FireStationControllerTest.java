@@ -25,7 +25,7 @@ import com.safetynet.alerts.model.FireStation;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest(classes = SafetyNetApplicationTest.class)
-public class FireStationControllerTestIT {
+public class FireStationControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
