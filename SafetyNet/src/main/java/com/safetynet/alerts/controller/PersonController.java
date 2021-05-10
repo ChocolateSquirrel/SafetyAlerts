@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,8 @@ import com.safetynet.alerts.service.PersonService;
 @RestController
 public class PersonController {
 	
+	private static final Logger log = LoggerFactory.getLogger(PersonController.class);
+	
 	private final PersonService personService;
 
 	public PersonController(PersonService personService) {
@@ -26,6 +30,7 @@ public class PersonController {
 	
 	@GetMapping(value = "persons")
 	public List<Person> getAllPersons() {
+		log.info("Get all people of the file");
 		return personService.getAllPersons();
 	}
 	
@@ -39,6 +44,7 @@ public class PersonController {
 				ps.getPhone(),
 				ps.getEmail());
 		personService.addPerson(person);
+		log.info("Add " + person.toString() + " to the file");
 		return person;
 	}
 	
@@ -51,7 +57,10 @@ public class PersonController {
 				ps.getZip(),
 				ps.getPhone(),
 				ps.getEmail());
-		personService.updatePerson(person);
+		if (personService.updatePerson(person)) 
+			log.info("Person called : " + person.getFirstName() + " " + person.getLastName() + " was updated");
+		else 
+			log.error("Person called : " + person.getFirstName() + " " + person.getLastName() + " cannot be updated because this person is not in our file");
 		return person;
 	}
 	
@@ -64,7 +73,10 @@ public class PersonController {
 				ps.getZip(),
 				ps.getPhone(),
 				ps.getEmail());
-		personService.deletePerson(person);
+		if (personService.deletePerson(person))
+			log.info("Person called : " + person.getFirstName() + " " + person.getLastName() + " was deleted");
+		else 
+			log.error("Person called : " + person.getFirstName() + " " + person.getLastName() + " cannot be deleted because this person is not in our file");
 		return person;
 	}
 	

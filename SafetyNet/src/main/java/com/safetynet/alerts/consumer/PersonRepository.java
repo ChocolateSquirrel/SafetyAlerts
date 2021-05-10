@@ -57,7 +57,7 @@ public class PersonRepository {
 		dataHandler.save();
 	}
 
-	public void update(Person person) {
+	public boolean update(Person person) {
 		Optional<Person> personToUpdate = persons.stream().filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())).findAny();
 		if (personToUpdate.isPresent()) {
 			Person p = personToUpdate.get();
@@ -67,18 +67,20 @@ public class PersonRepository {
 			p.setPhone(person.getPhone());
 			p.setEmail(person.getEmail());
 			dataHandler.save();
+			return true;
 		}
-		else throw new RuntimeException(person.getFirstName() + " " + person.getLastName() + " is not a person in our file");
+		else return false; 
 	}
 
-	public void delete(Person person) {
+	public boolean delete(Person person) {
 		Optional<Person> personToDelete = persons.stream().filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())).findAny();
 		if (personToDelete.isPresent()) {
 			Person p = personToDelete.get();
 			persons.remove(p);
 			dataHandler.save();
+			return true;
 		}
-		else throw new RuntimeException(person.getFirstName() + " " + person.getLastName() + " is not a person in our file");
+		else return false; 
 	}
 
 }
