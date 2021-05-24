@@ -10,6 +10,8 @@ public class FireStationDTO {
 	private Integer adultCount;
 	private Integer childCount;
 	
+	public FireStationDTO() {}
+	
 	public FireStationDTO(List<Person> people, Integer adultCount, Integer childCount) {
 		super();
 		this.people = people;
@@ -23,6 +25,8 @@ public class FireStationDTO {
 		private String lastName;
 		private String address;
 		private String phone;
+		
+		public Person() {}
 		
 		public Person(String firstName, String lastName, String address, String phone) {
 			this.firstName = firstName;
