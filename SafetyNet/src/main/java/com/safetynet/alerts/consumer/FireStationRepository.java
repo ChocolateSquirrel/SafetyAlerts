@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
+import com.safetynet.alerts.exception.EntityNotFoundException;
 import com.safetynet.alerts.model.FireStation;
 
 @Repository
@@ -33,7 +34,7 @@ public class FireStationRepository {
 			fs.setStation(fireStation.getStation());
 			dataHandler.save();
 		} else
-			throw new RuntimeException("No fireStation for address: " + fireStation.getAddress());
+			throw new EntityNotFoundException(FireStation.class, fireStation.getAddress());
 	}
 
 	public void delete(FireStation fireStation) {
@@ -44,7 +45,7 @@ public class FireStationRepository {
 			firestations.remove(fs);
 			dataHandler.save();
 		} else
-			throw new RuntimeException("No fireStation for address: " + fireStation.getAddress());
+			throw new EntityNotFoundException(FireStation.class, fireStation.getAddress());
 
 	}
 
@@ -58,7 +59,7 @@ public class FireStationRepository {
 		if (!fireStationsFilteredByNumber.isEmpty())
 			return fireStationsFilteredByNumber;
 		else
-			throw new RuntimeException("There is no fireStation number " + stationNumber);
+			throw new EntityNotFoundException(FireStation.class, Integer.toString(stationNumber));
 	}
 
 	public int findByAddress(String address) {
@@ -67,8 +68,7 @@ public class FireStationRepository {
 		if (optFireStation.isPresent())
 			return Integer.parseInt(optFireStation.get().getStation());
 		else
-			throw new RuntimeException(
-					"This address: (" + address + ") is not registered and there is no firestation linked to it");
+			throw new EntityNotFoundException(FireStation.class, address);
 	}
 
 	public FireStation findAFireStation(String address, String stationNumber) {
@@ -76,8 +76,10 @@ public class FireStationRepository {
 				.filter(fs -> fs.getAddress().equals(address) && fs.getStation().equals(stationNumber)).findFirst();
 		if (optFireStation.isPresent())
 			return optFireStation.get();
-		else
-			throw new RuntimeException("No fireStation for address: " + address + " and number: " + stationNumber);
+		else {
+			String identifier = address + " and " + stationNumber;
+			throw new EntityNotFoundException(FireStation.class, identifier);
+		}
 	}
 
 }

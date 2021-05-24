@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
+import com.safetynet.alerts.exception.EntityNotFoundException;
+import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.Person;
 
 @Repository
@@ -26,21 +28,21 @@ public class PersonRepository {
 		List<Person> personsFilteredByAddress = persons.stream().filter(p -> address.equalsIgnoreCase(p.getAddress()))
 				.collect(Collectors.toList());
 		if (!personsFilteredByAddress.isEmpty()) return personsFilteredByAddress;
-		else throw new RuntimeException("Anybody live at this address: " + address);
+		else throw new EntityNotFoundException(Person.class, address);
 	}
 
 	public List<Person> findByCity(String city) {
 		List<Person> personsFilteredByCity = persons.stream().filter(p -> city.equalsIgnoreCase(p.getCity()))
 				.collect(Collectors.toList());
 		if (!personsFilteredByCity.isEmpty()) return personsFilteredByCity;
-		else throw new RuntimeException("Anybody live in this city: " + city);
+		else throw new EntityNotFoundException(Person.class, city);
 	}
 
 	public List<Person> findByLastName(String lastName) {
 		List<Person> personFilteredByLastName = persons.stream().filter(p -> lastName.equalsIgnoreCase(p.getLastName()))
 				.collect(Collectors.toList());
 		if (!personFilteredByLastName.isEmpty()) return personFilteredByLastName;
-		else throw new RuntimeException("No one have this lastName: " + lastName);
+		else throw new EntityNotFoundException(Person.class, lastName);
 	}
 
 	public Person findByIdentity(String firstName, String lastName) {
@@ -48,7 +50,10 @@ public class PersonRepository {
 				.filter(p -> firstName.equalsIgnoreCase(p.getFirstName()) && lastName.equals(p.getLastName()))
 				.findFirst();
 		if (person.isPresent()) return person.get();
-		else throw new RuntimeException("No one is called: " + firstName + " " + lastName);
+		else {
+			String identifier = firstName + lastName;
+			throw new EntityNotFoundException(Person.class, identifier);
+		}
 	}
 
 	// ----------------- Methods for add, update or delete a Person ----------------- //
@@ -68,7 +73,10 @@ public class PersonRepository {
 			p.setEmail(person.getEmail());
 			dataHandler.save();
 		}
-		else throw new RuntimeException("No one is called: " + person.getFirstName() + " " + person.getLastName());
+		else {
+			String identifier = person.getFirstName() + person.getLastName();
+			throw new EntityNotFoundException(Person.class, identifier);
+		}
 	}
 
 	public void delete(Person person) {
@@ -78,7 +86,10 @@ public class PersonRepository {
 			persons.remove(p);
 			dataHandler.save();
 		}
-		else throw new RuntimeException("No one is called: " + person.getFirstName() + " " + person.getLastName());
+		else {
+			String identifier = person.getFirstName() + person.getLastName();
+			throw new EntityNotFoundException(Person.class, identifier);
+		}
 	}
 
 }

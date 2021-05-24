@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
+import com.safetynet.alerts.exception.EntityNotFoundException;
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
 
 @Repository
 public class MedicalRecordRepository {
@@ -27,7 +29,7 @@ public class MedicalRecordRepository {
 				.filter(m -> m.getLastName().equals(lastName))
 				.collect(Collectors.toList());
 		if (!list.isEmpty()) return list;
-		else throw new RuntimeException("No medical records for this lastName: " + lastName);
+		else throw new EntityNotFoundException(MedicalRecord.class, lastName);
 	}
 	
 	public Optional<MedicalRecord> findByIdentity(String firstName, String lastName) {
@@ -35,7 +37,10 @@ public class MedicalRecordRepository {
 				.filter(m -> m.getFirstName().equals(firstName) && m.getLastName().equals(lastName))
 				.findFirst();
 		if (mr.isPresent()) return mr;
-		else throw new RuntimeException("No medical records for " + firstName + " " + lastName);
+		else {
+			String identifier = firstName + lastName;
+			throw new EntityNotFoundException(MedicalRecord.class, identifier);
+		}
 	}
 	
 	
@@ -45,26 +50,38 @@ public class MedicalRecordRepository {
 	}
 
 	public void update(MedicalRecord medicalRecord) {
-		medicalRecords.stream().filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
+		Optional<MedicalRecord> medicalRecordToUpdate = medicalRecords.stream().filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
 				&& m.getLastName()
 				.equals(medicalRecord.getLastName()))
-				.findAny().ifPresent(m -> {
-					m.setBirthdate(medicalRecord.getBirthdate());
-					m.setMedications(medicalRecord.getMedications());
-					m.setAllergies(medicalRecord.getAllergies());
-					dataHandler.save();
-				});
+				.findAny();
+		if (medicalRecordToUpdate.isPresent()) {
+			MedicalRecord m = medicalRecordToUpdate.get();
+			m.setBirthdate(medicalRecord.getBirthdate());
+			m.setMedications(medicalRecord.getMedications());
+			m.setAllergies(medicalRecord.getAllergies());
+			dataHandler.save();
+		}
+		else {
+			String identifier = medicalRecord.getFirstName() + medicalRecord.getLastName();
+			throw new EntityNotFoundException(MedicalRecord.class, identifier);
+		}
+
 	}
 
 	public void delete(MedicalRecord medicalRecord) {
-		medicalRecords.stream()
-		.filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
-						&& m.getLastName().equals(medicalRecord.getLastName()))
-		.findAny().ifPresent(m -> {
+		Optional<MedicalRecord> medicalRecordToDelete = medicalRecords.stream().filter(m -> m.getFirstName().equals(medicalRecord.getFirstName())
+				&& m.getLastName()
+				.equals(medicalRecord.getLastName()))
+				.findAny();
+		if (medicalRecordToDelete.isPresent()) {
+			MedicalRecord m = medicalRecordToDelete.get();
 			medicalRecords.remove(m);
 			dataHandler.save();
-		});
-		
+		}
+		else {
+			String identifier = medicalRecord.getFirstName() + medicalRecord.getLastName();
+			throw new EntityNotFoundException(MedicalRecord.class, identifier);
+		}
 	}
 
 }
