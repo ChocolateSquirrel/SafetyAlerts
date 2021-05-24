@@ -46,7 +46,6 @@ public class PersonControllerTest {
 	public void whenValidInput_Post_thenReturns200() throws Exception {
 		Person p = new Person("Jean", "Dupont", "rue des Fleurs", "Londres", "123456", "06070809",
 				"jean.dupont@mail.com");
-
 		mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(p)))
 				.andExpect(status().isOk());
 		Person person = personRepository.findByIdentity("Jean", "Dupont");
@@ -57,7 +56,6 @@ public class PersonControllerTest {
 	public void whenNullFirstOrLastNameInput_Post_thenReturns400() throws Exception {
 		Person p = new Person(null, "Dupont", "rue des Fleurs", "Londres", "123456", "06070809",
 				"jean.dupont@mail.com");
-
 		mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(p)))
 				.andExpect(status().isBadRequest());
 	}
@@ -73,17 +71,13 @@ public class PersonControllerTest {
 	}
 
 	@Test
-	public void whenInvalidInput_Put_thenReturns500() throws Exception {
+	public void whenInvalidInput_Put_thenReturnsNotFound() throws Exception {
 		Person p = new Person("Jacques", "Dupont", "1509 Culver St", "New York", "97451", "841-874-6512",
 				"jaboyd@email.com");
-//		mockMvc.perform(put("/person")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(JsonStream.serialize(p)))
-//		.andExpect(status().is5xxServerError());
-		Exception ex = assertThrows(NestedServletException.class, () -> mockMvc
-				.perform(put("/person").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(p))));
-		assertEquals("Request processing failed; nested exception is java.lang.RuntimeException: " + p.getFirstName()
-				+ " " + p.getLastName() + " is not a person in our file", ex.getMessage());
+		mockMvc.perform(put("/person")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonStream.serialize(p)))
+		.andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -92,20 +86,18 @@ public class PersonControllerTest {
 				"jaboyd@email.com");
 		mockMvc.perform(delete("/person").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(p)))
 				.andExpect(status().isOk());
+		boolean answer = personRepository.findAll().contains(p);
+		assertEquals(false, answer);
 	}
 
 	@Test
 	public void whenInvalidInput_Delete_thenReturns500() throws Exception {
 		Person p = new Person("Suzanne", "Dupont", "1509 Culver St", "New York", "97451", "841-874-6512",
 				"jaboyd@email.com");
-//		mockMvc.perform(put("/person")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(JsonStream.serialize(p)))
-//		.andExpect(status().is5xxServerError());
-		Exception ex = assertThrows(NestedServletException.class, () -> mockMvc
-				.perform(delete("/person").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(p))));
-		assertEquals("Request processing failed; nested exception is java.lang.RuntimeException: " + p.getFirstName()
-				+ " " + p.getLastName() + " is not a person in our file", ex.getMessage());
+		mockMvc.perform(put("/person")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonStream.serialize(p)))
+		.andExpect(status().isNotFound());
 	}
 
 }

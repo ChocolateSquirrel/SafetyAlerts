@@ -79,8 +79,8 @@ public class AlertsService {
 	
 	public PersonInfoDTO getInfoForPerson(String firstName, String lastName) {
 		Person person = personRepository.findByIdentity(firstName, lastName);
-		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(firstName, lastName);
-		PersonInfoDTO personInfo = new PersonInfoDTO(person.getFirstName(), person.getLastName(), person.getAge(medicalRecord.get().getBirthdate()), person.getEmail(), medicalRecord.get().getMedications(), medicalRecord.get().getAllergies());
+		MedicalRecord medicalRecord = medicalRecordRepository.findByIdentity(firstName, lastName);
+		PersonInfoDTO personInfo = new PersonInfoDTO(person.getFirstName(), person.getLastName(), person.getAge(medicalRecord.getBirthdate()), person.getEmail(), medicalRecord.getMedications(), medicalRecord.getAllergies());
 		return personInfo;
 	}
 
@@ -120,9 +120,9 @@ public class AlertsService {
 	private List<Person> getListOfAdults(List<Person> peopleList) {
 		List<Person> adultsList = new ArrayList<>();
 		for (Person person : peopleList) {
-			Optional<MedicalRecord> medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(),
-					person.getLastName());
-			int personAge = person.getAge(medicalRecordPerson.get().getBirthdate());
+			MedicalRecord medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(),
+					person.getLastName()); 
+			int personAge = person.getAge(medicalRecordPerson.getBirthdate());
 			if (personAge >= MAJORITY)
 				adultsList.add(person);
 		}
@@ -132,9 +132,9 @@ public class AlertsService {
 	private List<Person> getListOfChildren(List<Person> peopleList) {
 		List<Person> childrenList = new ArrayList<>();
 		for (Person person : peopleList) {
-			Optional<MedicalRecord> medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(),
+			MedicalRecord medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(),
 					person.getLastName());
-			int personAge = person.getAge(medicalRecordPerson.get().getBirthdate());
+			int personAge = person.getAge(medicalRecordPerson.getBirthdate());
 			if (personAge < MAJORITY)
 				childrenList.add(person);
 		}
@@ -142,28 +142,30 @@ public class AlertsService {
 	}
 
 	private String getBirthdate(Person person) {
-		Optional<MedicalRecord> medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(),
+		MedicalRecord medicalRecordPerson = medicalRecordRepository.findByIdentity(person.getFirstName(),
 				person.getLastName());
-		return medicalRecordPerson.get().getBirthdate();
+		return medicalRecordPerson.getBirthdate();
 	}
 	
 	private FloodDTOInfo.Person changeIntoFloodDTOPerson(Person person){
-		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
+		MedicalRecord medicalRecord = medicalRecordRepository.findByIdentity(person.getFirstName(),
+				person.getLastName());
 		FloodDTOInfo.Person personFloodDTO = new FloodDTOInfo.Person(person.getFirstName(), person.getLastName(),
-				person.getPhone(), person.getAge(medicalRecord.get().getBirthdate()),
-				medicalRecord.get().getMedications(),
-				medicalRecord.get().getAllergies());
+				person.getPhone(), person.getAge(medicalRecord.getBirthdate()),
+				medicalRecord.getMedications(),
+				medicalRecord.getAllergies());
 		return personFloodDTO;
 	}
 	
 	private FireDTO.Person changeIntoFireDTOPerson(Person person){
-		Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findByIdentity(person.getFirstName(), person.getLastName());
+		MedicalRecord medicalRecord = medicalRecordRepository.findByIdentity(person.getFirstName(),
+				person.getLastName());
 		FireDTO.Person personFireDTO = new FireDTO.Person(person.getFirstName(),
 				person.getLastName(),
 				person.getPhone(),
-				person.getAge(medicalRecord.get().getBirthdate()),
-				medicalRecord.get().getMedications(),
-				medicalRecord.get().getAllergies());
+				person.getAge(medicalRecord.getBirthdate()),
+				medicalRecord.getMedications(),
+				medicalRecord.getAllergies());
 		return personFireDTO;
 	}
 

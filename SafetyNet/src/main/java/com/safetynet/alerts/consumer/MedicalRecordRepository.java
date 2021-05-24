@@ -32,11 +32,11 @@ public class MedicalRecordRepository {
 		else throw new EntityNotFoundException(MedicalRecord.class, lastName);
 	}
 	
-	public Optional<MedicalRecord> findByIdentity(String firstName, String lastName) {
+	public MedicalRecord findByIdentity(String firstName, String lastName) {
 		Optional<MedicalRecord> mr = medicalRecords.stream()
 				.filter(m -> m.getFirstName().equals(firstName) && m.getLastName().equals(lastName))
 				.findFirst();
-		if (mr.isPresent()) return mr;
+		if (mr.isPresent()) return mr.get();
 		else {
 			String identifier = firstName + lastName;
 			throw new EntityNotFoundException(MedicalRecord.class, identifier);

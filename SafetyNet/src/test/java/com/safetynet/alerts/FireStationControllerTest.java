@@ -1,7 +1,6 @@
 package com.safetynet.alerts;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -16,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
 
 import com.jsoniter.output.JsonStream;
 import com.safetynet.alerts.consumer.FireStationRepository;
@@ -55,25 +53,30 @@ public class FireStationControllerTest {
 	}
 	
 	@Test
-	public void whenInvalidInput_Put_thenReturns500() {
+	public void whenInvalidInput_Put_thenReturnsNotFound() throws Exception {
 		FireStation fs = new FireStation("rue du mur", "2");
-		Exception ex = assertThrows(NestedServletException.class, () -> mockMvc
-				.perform(put("/firestation").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(fs))));
-		assertEquals("Request processing failed; nested exception is java.lang.RuntimeException: No fireStation for address: " + fs.getAddress(), ex.getMessage());
+		mockMvc.perform(put("/firestation")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonStream.serialize(fs)))
+				.andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void whenValidInput_Delete_thenReturns200() throws Exception {
-		FireStation fs = new FireStation("112 Steppes Pl","3");
+		FireStation fs = new FireStation("644 Gershwin Cir","1");
 		mockMvc.perform(delete("/firestation").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(fs))).andExpect(status().isOk());
+		boolean answer = fireStationRepository.findAll().contains(fs);
+		assertEquals(false, answer);
+		
 	}
 	
 	@Test
-	public void whenInvalidInput_Delete_thenReturns500() {
+	public void whenInvalidInput_Delete_thenReturnsNotFound() throws Exception {
 		FireStation fs = new FireStation("rue du mur", "2");
-		Exception ex = assertThrows(NestedServletException.class, () -> mockMvc
-				.perform(delete("/firestation").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(fs))));
-		assertEquals("Request processing failed; nested exception is java.lang.RuntimeException: No fireStation for address: " + fs.getAddress(), ex.getMessage());
+		mockMvc.perform(delete("/firestation")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(JsonStream.serialize(fs)))
+				.andExpect(status().isNotFound());
 	}
 	
 }
