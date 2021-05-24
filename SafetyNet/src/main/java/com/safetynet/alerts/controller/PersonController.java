@@ -57,10 +57,7 @@ public class PersonController {
 				ps.getZip(),
 				ps.getPhone(),
 				ps.getEmail());
-		if (personService.updatePerson(person)) 
-			log.info("Person called : " + person.getFirstName() + " " + person.getLastName() + " was updated");
-		else 
-			log.error("Person called : " + person.getFirstName() + " " + person.getLastName() + " cannot be updated because this person is not in our file");
+		personService.updatePerson(person);
 		return person;
 	}
 	
@@ -73,10 +70,7 @@ public class PersonController {
 				ps.getZip(),
 				ps.getPhone(),
 				ps.getEmail());
-		if (personService.deletePerson(person))
-			log.info("Person called : " + person.getFirstName() + " " + person.getLastName() + " was deleted");
-		else 
-			log.error("Person called : " + person.getFirstName() + " " + person.getLastName() + " cannot be deleted because this person is not in our file");
+		personService.deletePerson(person);
 		return person;
 	}
 	

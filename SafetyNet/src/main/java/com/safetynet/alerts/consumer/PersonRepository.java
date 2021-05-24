@@ -57,7 +57,7 @@ public class PersonRepository {
 		dataHandler.save();
 	}
 
-	public boolean update(Person person) {
+	public void update(Person person) {
 		Optional<Person> personToUpdate = persons.stream().filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())).findAny();
 		if (personToUpdate.isPresent()) {
 			Person p = personToUpdate.get();
@@ -67,20 +67,18 @@ public class PersonRepository {
 			p.setPhone(person.getPhone());
 			p.setEmail(person.getEmail());
 			dataHandler.save();
-			return true;
 		}
-		else return false; 
+		else throw new RuntimeException("No one is called: " + person.getFirstName() + " " + person.getLastName());
 	}
 
-	public boolean delete(Person person) {
+	public void delete(Person person) {
 		Optional<Person> personToDelete = persons.stream().filter(p -> p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())).findAny();
 		if (personToDelete.isPresent()) {
 			Person p = personToDelete.get();
 			persons.remove(p);
 			dataHandler.save();
-			return true;
 		}
-		else return false; 
+		else throw new RuntimeException("No one is called: " + person.getFirstName() + " " + person.getLastName());
 	}
 
 }

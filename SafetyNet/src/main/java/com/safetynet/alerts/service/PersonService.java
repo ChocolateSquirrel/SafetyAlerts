@@ -51,12 +51,12 @@ public class PersonService {
 		personRepository.add(person);
 	}
 
-	public boolean updatePerson(Person person) {
-		return personRepository.update(person);
+	public void updatePerson(Person person) {
+		personRepository.update(person);
 	}
 	
-	public boolean deletePerson(Person person) {
-		return personRepository.delete(person);
+	public void deletePerson(Person person) {
+		personRepository.delete(person);
 	}
 	
 	
