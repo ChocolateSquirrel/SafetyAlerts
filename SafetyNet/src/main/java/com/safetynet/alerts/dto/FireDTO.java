@@ -9,6 +9,8 @@ public class FireDTO {
 	private List<Person> personLivingHere;
 	private int stationNumber;
 	
+	public FireDTO() {}
+	
 	public FireDTO(List<Person> personLivingHere, int stationNumber) {
 		super();
 		this.personLivingHere = personLivingHere;
@@ -23,6 +25,8 @@ public class FireDTO {
 		private int age;
 		private List<String> medicaments;
 		private List<String> allergies;
+		
+		public Person() {}
 		
 		public Person(String firstName, String lastName, String phone, int age, List<String> medicaments,
 				List<String> allergies) {

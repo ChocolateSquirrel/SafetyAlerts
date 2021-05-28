@@ -13,6 +13,8 @@ public class ChildAlertDTO {
 	private int age;
 	private List<Person> peopleLivingSamePlace;
 	
+	public ChildAlertDTO() {}
+	
 	public ChildAlertDTO(String firstName, String lastName, int age, List<Person> peopleLivingSamePlace) {
 		super();
 		this.firstName = firstName;

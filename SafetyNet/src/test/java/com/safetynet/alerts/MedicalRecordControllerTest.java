@@ -63,9 +63,9 @@ public class MedicalRecordControllerTest {
 	@Test
 	public void whenValidInput_Put_thenReturns200() throws Exception {
 		allergies.add("mosquito");
-		MedicalRecord mr = new MedicalRecord("Tenley", "Boyd", "12/12/12", medications, allergies);
+		MedicalRecord mr = new MedicalRecord("Warren", "Zemicks", "12/12/12", medications, allergies);
 		mockMvc.perform(put("/medicalrecord").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(mr))).andExpect(status().isOk());
-		MedicalRecord medicalRecord = medicalRecordRepository.findByIdentity("Tenley", "Boyd");
+		MedicalRecord medicalRecord = medicalRecordRepository.findByIdentity("Warren", "Zemicks");
 		assertEquals("12/12/12", medicalRecord.getBirthdate());
 		assertTrue(medicalRecord.getAllergies().contains("mosquito"));
 	}

@@ -8,6 +8,8 @@ import lombok.Data;
 public class FloodDTOInfo {
 	private String address;
 	private List<Person> peopleAtHome;
+	
+	public FloodDTOInfo() {}
 
 	public FloodDTOInfo(String address, List<Person> peopleAtHome) {
 		super();
@@ -23,6 +25,8 @@ public class FloodDTOInfo {
 		private int age;
 		private List<String> medicaments;
 		private List<String> allergies;
+		
+		public Person() {}
 
 		public Person(String firstName, String lastName, String phone, int age, List<String> medicaments,
 				List<String> allergies) {

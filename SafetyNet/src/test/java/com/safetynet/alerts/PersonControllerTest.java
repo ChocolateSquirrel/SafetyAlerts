@@ -62,12 +62,13 @@ public class PersonControllerTest {
 
 	@Test
 	public void whenValidInput_Put_thenReturns200() throws Exception {
-		Person p = new Person("John", "Boyd", "1509 Culver St", "New York", "97451", "841-874-6512",
+		Person p = new Person("Eric", "Cadigan", "1509 Culver St", "New York", "97451", "841-874-7458",
 				"jaboyd@email.com");
 		mockMvc.perform(put("/person").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(p)))
 				.andExpect(status().isOk());
-		Person person = personRepository.findByIdentity("John", "Boyd");
+		Person person = personRepository.findByIdentity("Eric", "Cadigan");
 		assertEquals("New York", person.getCity());
+		assertEquals("1509 Culver St", person.getAddress());
 	}
 
 	@Test
@@ -82,8 +83,8 @@ public class PersonControllerTest {
 
 	@Test
 	public void whenValidInput_Delete_thenReturns200() throws Exception {
-		Person p = new Person("John", "Boyd", "1509 Culver St", "New York", "97451", "841-874-6512",
-				"jaboyd@email.com");
+		Person p = new Person("Claire", "Cadigan", "951 LoneTree Rd", "New York", "97450", "841-874-7459",
+				"clgramps@email.com" );
 		mockMvc.perform(delete("/person").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(p)))
 				.andExpect(status().isOk());
 		boolean answer = personRepository.findAll().contains(p);

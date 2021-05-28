@@ -80,7 +80,7 @@ public class AlertsService {
 	public PersonInfoDTO getInfoForPerson(String firstName, String lastName) {
 		Person person = personRepository.findByIdentity(firstName, lastName);
 		MedicalRecord medicalRecord = medicalRecordRepository.findByIdentity(firstName, lastName);
-		PersonInfoDTO personInfo = new PersonInfoDTO(person.getFirstName(), person.getLastName(), person.getAge(medicalRecord.getBirthdate()), person.getEmail(), medicalRecord.getMedications(), medicalRecord.getAllergies());
+		PersonInfoDTO personInfo = new PersonInfoDTO(person.getFirstName(), person.getLastName(), person.getAddress(), person.getAge(medicalRecord.getBirthdate()), person.getEmail(), medicalRecord.getMedications(), medicalRecord.getAllergies());
 		return personInfo;
 	}
 

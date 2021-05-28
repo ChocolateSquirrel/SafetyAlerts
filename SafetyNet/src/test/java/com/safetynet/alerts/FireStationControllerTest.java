@@ -46,10 +46,10 @@ public class FireStationControllerTest {
 	
 	@Test
 	public void whenValidInput_Put_thenReturns200() throws Exception {
-		FireStation fs = new FireStation("834 Binoc Ave", "4");
+		FireStation fs = new FireStation("489 Manchester St", "6");
 		mockMvc.perform(put("/firestation").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(fs))).andExpect(status().isOk());
-		int stationNumber = fireStationRepository.findByAddress("834 Binoc Ave");
-		assertEquals(4, stationNumber);
+		int stationNumber = fireStationRepository.findByAddress("489 Manchester St");
+		assertEquals(6, stationNumber);
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class FireStationControllerTest {
 	
 	@Test
 	public void whenValidInput_Delete_thenReturns200() throws Exception {
-		FireStation fs = new FireStation("644 Gershwin Cir","1");
+		FireStation fs = new FireStation("951 LoneTree Rd","5");
 		mockMvc.perform(delete("/firestation").contentType(MediaType.APPLICATION_JSON).content(JsonStream.serialize(fs))).andExpect(status().isOk());
 		boolean answer = fireStationRepository.findAll().contains(fs);
 		assertEquals(false, answer);
