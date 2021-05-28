@@ -51,7 +51,7 @@ public class PersonRepository {
 				.findFirst();
 		if (person.isPresent()) return person.get();
 		else {
-			String identifier = firstName + lastName;
+			String identifier = firstName + " " + lastName;
 			throw new EntityNotFoundException(Person.class, identifier);
 		}
 	}
@@ -74,7 +74,7 @@ public class PersonRepository {
 			dataHandler.save();
 		}
 		else {
-			String identifier = person.getFirstName() + person.getLastName();
+			String identifier = person.getFirstName() + " " + person.getLastName();
 			throw new EntityNotFoundException(Person.class, identifier);
 		}
 	}
@@ -87,7 +87,7 @@ public class PersonRepository {
 			dataHandler.save();
 		}
 		else {
-			String identifier = person.getFirstName() + person.getLastName();
+			String identifier = person.getFirstName() + " " + person.getLastName();
 			throw new EntityNotFoundException(Person.class, identifier);
 		}
 	}

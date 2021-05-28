@@ -38,7 +38,7 @@ public class MedicalRecordRepository {
 				.findFirst();
 		if (mr.isPresent()) return mr.get();
 		else {
-			String identifier = firstName + lastName;
+			String identifier = firstName + " " + lastName;
 			throw new EntityNotFoundException(MedicalRecord.class, identifier);
 		}
 	}
@@ -62,7 +62,7 @@ public class MedicalRecordRepository {
 			dataHandler.save();
 		}
 		else {
-			String identifier = medicalRecord.getFirstName() + medicalRecord.getLastName();
+			String identifier = medicalRecord.getFirstName() + " " + medicalRecord.getLastName();
 			throw new EntityNotFoundException(MedicalRecord.class, identifier);
 		}
 
@@ -79,7 +79,7 @@ public class MedicalRecordRepository {
 			dataHandler.save();
 		}
 		else {
-			String identifier = medicalRecord.getFirstName() + medicalRecord.getLastName();
+			String identifier = medicalRecord.getFirstName() + " " + medicalRecord.getLastName();
 			throw new EntityNotFoundException(MedicalRecord.class, identifier);
 		}
 	}
