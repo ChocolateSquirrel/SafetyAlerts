@@ -118,6 +118,11 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/*DTO*.*</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 					<execution>
 						<id>report</id>
@@ -125,13 +130,14 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/*DTO*.*</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<excludes>
-						<exclude>dto/**</exclude>
-					</excludes>
-				</configuration>
+
 			</plugin>
 		</plugins>
 	</build>
